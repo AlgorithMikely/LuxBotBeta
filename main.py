@@ -50,6 +50,7 @@ class MusicQueueBot(commands.Bot):
         # Load cogs
         try:
             await self.load_extension('cogs.submission_cog')
+            await self.load_extension('cogs.skip_submission_cog')
             await self.load_extension('cogs.queue_cog')
             await self.load_extension('cogs.admin_cog')
             await self.load_extension('cogs.moderation_cog')

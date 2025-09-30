@@ -314,7 +314,7 @@ class AdminCog(commands.Cog):
             cleared_count = await self.bot.db.clear_free_line()
             
             # Update queue display for Free line
-            if hasattr(self.bot, 'get_cog') and self.bot.get_cog('QueueCog'):
+            if hasattr(self, 'bot') and hasattr(self.bot, 'get_cog') and self.bot.get_cog('QueueCog'):
                 queue_cog = self.bot.get_cog('QueueCog')
                 await queue_cog.update_queue_display(QueueLine.FREE.value)
             
@@ -330,6 +330,131 @@ class AdminCog(commands.Cog):
                 f"❌ Error clearing Free line: {str(e)}", 
                 ephemeral=True
             )
+
+    @app_commands.command(name="openskip", description="Open skip submissions for users")
+    async def open_skip_submissions(self, interaction: discord.Interaction):
+        """Open skip submissions"""
+        if not self._has_admin_permissions(interaction):
+            await interaction.response.send_message(
+                "❌ You don't have permission to use this command.",
+                ephemeral=True
+            )
+            return
+
+        try:
+            await self.bot.db.set_skip_submissions_status(True)
+            embed = discord.Embed(
+                title="✅ Skip Submissions Opened",
+                description="Users can now submit music for the skip line using `/submitskip`.",
+                color=discord.Color.green()
+            )
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+        except Exception as e:
+            await interaction.response.send_message(
+                f"❌ Error opening skip submissions: {str(e)}",
+                ephemeral=True
+            )
+
+    @app_commands.command(name="closeskip", description="Close skip submissions for users")
+    async def close_skip_submissions(self, interaction: discord.Interaction):
+        """Close skip submissions"""
+        if not self._has_admin_permissions(interaction):
+            await interaction.response.send_message(
+                "❌ You don't have permission to use this command.",
+                ephemeral=True
+            )
+            return
+
+        try:
+            await self.bot.db.set_skip_submissions_status(False)
+            embed = discord.Embed(
+                title="🚫 Skip Submissions Closed",
+                description="Users can no longer submit to the skip line. Use `/openskip` to re-enable.",
+                color=discord.Color.red()
+            )
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+        except Exception as e:
+            await interaction.response.send_message(
+                f"❌ Error closing skip submissions: {str(e)}",
+                ephemeral=True
+            )
+
+    @app_commands.command(name="confirmsubmission", description="Confirm a pending skip submission and move it to a priority line")
+    @app_commands.describe(
+        submission_id="The ID of the submission to confirm",
+        target_line="The priority line to move the submission to"
+    )
+    @app_commands.choices(target_line=[
+        app_commands.Choice(name="Skip", value="Skip"),
+        app_commands.Choice(name="DoubleSkip", value="DoubleSkip"),
+        app_commands.Choice(name="BackToBack", value="BackToBack"),
+    ])
+    async def confirm_submission(self, interaction: discord.Interaction, submission_id: int, target_line: str):
+        """Confirm a submission and move it to a skip line"""
+        if not self._has_admin_permissions(interaction):
+            await interaction.response.send_message(
+                "❌ You don't have permission to use this command.",
+                ephemeral=True
+            )
+            return
+
+        try:
+            submission = await self.bot.db.get_submission_by_id(submission_id)
+
+            if not submission:
+                await interaction.response.send_message(
+                    f"❌ Submission #{submission_id} not found.",
+                    ephemeral=True
+                )
+                return
+
+            if submission['queue_line'] != QueueLine.UNCONFIRMED.value:
+                await interaction.response.send_message(
+                    f"❌ Submission #{submission_id} is not in the Unconfirmed line. It is currently in the **{submission['queue_line']}** line.",
+                    ephemeral=True
+                )
+                return
+
+            success = await self.bot.db.move_submission(submission_id, target_line)
+
+            if success:
+                # Update queue displays
+                if hasattr(self.bot, 'get_cog') and self.bot.get_cog('QueueCog'):
+                    queue_cog = self.bot.get_cog('QueueCog')
+                    await queue_cog.update_queue_display(QueueLine.UNCONFIRMED.value)
+                    await queue_cog.update_queue_display(target_line)
+
+                embed = discord.Embed(
+                    title="✅ Submission Confirmed",
+                    description=f"Submission #{submission_id} has been moved to the **{target_line}** line.",
+                    color=discord.Color.green()
+                )
+                await interaction.response.send_message(embed=embed, ephemeral=True)
+
+                # Notify the user
+                user = self.bot.get_user(submission['user_id'])
+                if user:
+                    try:
+                        user_embed = discord.Embed(
+                            title="🎉 Your Submission is Confirmed!",
+                            description=f"Your submission for **{submission['artist_name']} - {submission['song_name']}** has been confirmed and moved to the **{target_line}** line.",
+                            color=discord.Color.green()
+                        )
+                        await user.send(embed=user_embed)
+                    except discord.Forbidden:
+                        pass  # User has DMs disabled
+            else:
+                await interaction.response.send_message(
+                    f"❌ Failed to move submission #{submission_id}.",
+                    ephemeral=True
+                )
+
+        except Exception as e:
+            await interaction.response.send_message(
+                f"❌ Error confirming submission: {str(e)}",
+                ephemeral=True
+            )
+
 
 async def setup(bot):
     """Setup function for the cog"""

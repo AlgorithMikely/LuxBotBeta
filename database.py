@@ -16,6 +16,7 @@ class QueueLine(Enum):
     SKIP = "Skip"
     FREE = "Free"
     CALLS_PLAYED = "Calls Played"
+    UNCONFIRMED = "Unconfirmed"
 
 class Database:
     """Async SQLite database handler for the music queue bot"""
@@ -73,6 +74,17 @@ class Database:
             # Initialize submission status if not exists
             await db.execute("""
                 INSERT OR IGNORE INTO submission_status (id, submissions_open) VALUES (1, 1)
+            """)
+
+            await db.execute("""
+                CREATE TABLE IF NOT EXISTS skip_submission_status (
+                    id INTEGER PRIMARY KEY,
+                    submissions_open BOOLEAN DEFAULT 1
+                )
+            """)
+
+            await db.execute("""
+                INSERT OR IGNORE INTO skip_submission_status (id, submissions_open) VALUES (1, 1)
             """)
 
             await db.commit()
@@ -220,6 +232,14 @@ class Database:
                 result = await cursor.fetchone()
                 return result[0] if result else 0
 
+    async def get_submission_by_id(self, submission_id: int) -> Optional[Dict[str, Any]]:
+        """Get a single submission by its ID"""
+        async with aiosqlite.connect(self.db_path) as db:
+            db.row_factory = aiosqlite.Row
+            async with db.execute("SELECT * FROM submissions WHERE id = ?", (submission_id,)) as cursor:
+                row = await cursor.fetchone()
+                return dict(row) if row else None
+
     async def set_submission_channel(self, channel_id: int):
         """Set the submission channel"""
         async with self._lock:
@@ -253,6 +273,24 @@ class Database:
         async with aiosqlite.connect(self.db_path) as db:
             async with db.execute("""
                 SELECT submissions_open FROM submission_status WHERE id = 1
+            """) as cursor:
+                row = await cursor.fetchone()
+                return bool(row[0]) if row else True
+
+    async def set_skip_submissions_status(self, open_status: bool):
+        """Set whether skip submissions are open or closed"""
+        async with self._lock:
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute("""
+                    UPDATE skip_submission_status SET submissions_open = ? WHERE id = 1
+                """, (open_status,))
+                await db.commit()
+
+    async def are_skip_submissions_open(self) -> bool:
+        """Check if skip submissions are currently open"""
+        async with aiosqlite.connect(self.db_path) as db:
+            async with db.execute("""
+                SELECT submissions_open FROM skip_submission_status WHERE id = 1
             """) as cursor:
                 row = await cursor.fetchone()
                 return bool(row[0]) if row else True

@@ -270,10 +270,17 @@ class SubmissionCog(commands.Cog):
                 for sub in subs:
                     link_text = f" ([Link]({sub['link_or_file']}))" if sub['link_or_file'].startswith('http') else ""
                     value += f"**#{sub['id']}** - *{sub['artist_name']} – {sub['song_name']}*{link_text}\n"
-                
+
+                field_name = f"{line_name} Line ({len(subs)})"
+                field_value = value
+
+                if line_name == QueueLine.UNCONFIRMED.value:
+                    field_name = f"Pending Confirmation ({len(subs)})"
+                    field_value += "\n*An admin will review your submission shortly.*"
+
                 embed.add_field(
-                    name=f"{line_name} Line ({len(subs)})",
-                    value=value,
+                    name=field_name,
+                    value=field_value,
                     inline=False
                 )
         
