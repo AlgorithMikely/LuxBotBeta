@@ -29,6 +29,70 @@ A TikTok-style music review queue system built with Discord.py v2.x featuring sl
 - Discord UI Modals and interactive components
 - Comprehensive error handling and validation
 
+## Setup on Windows
+
+These instructions will guide you through setting up and running the bot on a local Windows machine.
+
+### 1. Install Dependencies
+
+- **Python**: Install Python 3.8 or newer from the [official website](https://www.python.org/downloads/windows/). Make sure to check the box that says "Add Python to PATH" during installation.
+- **Git**: Install Git from the [official website](https://git-scm.com/download/win).
+
+### 2. Clone the Repository
+
+Open Command Prompt or PowerShell and run the following command to clone the repository:
+```bash
+git clone <repository_url>
+cd <repository_name>
+```
+
+### 3. Create a Virtual Environment
+
+It's recommended to use a virtual environment to manage dependencies:
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 4. Install Requirements
+
+Install the required Python packages:
+```bash
+pip install -r requirements.txt
+```
+
+### 5. Install FFmpeg
+
+The bot requires FFmpeg for audio processing.
+
+1.  **Download FFmpeg**:
+    - Go to the [FFmpeg downloads page](https://www.gyan.dev/ffmpeg/builds/).
+    - Download the latest "essentials" release build.
+2.  **Extract FFmpeg**:
+    - Extract the downloaded `.zip` file to a permanent location (e.g., `C:\ffmpeg`).
+3.  **Add FFmpeg to Path**:
+    - Search for "Edit the system environment variables" in the Start Menu and open it.
+    - Click the "Environment Variables..." button.
+    - In the "System variables" section, select the `Path` variable and click "Edit...".
+    - Click "New" and add the path to the `bin` folder inside your FFmpeg directory (e.g., `C:\ffmpeg\bin`).
+    - Click "OK" to close all windows.
+    - **Verify the installation** by opening a new Command Prompt and running `ffmpeg -version`.
+
+### 6. Configure Environment Variables
+
+Create a file named `.env` in the project's root directory and add your bot token:
+
+```
+DISCORD_BOT_TOKEN=your_discord_bot_token_here
+```
+
+### 7. Run the Bot
+
+Execute the `main.py` script to start the bot:
+```bash
+python main.py
+```
+
 ## Setup on Replit
 
 ### 1. Environment Variables
