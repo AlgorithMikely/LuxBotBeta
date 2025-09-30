@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player | {{ submission.artist_name }} - {{ submission.song_name }}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #121212;
+            color: #ffffff;
+        }
+        .player-container {
+            background-color: #1e1e1e;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+        }
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        p {
+            font-size: 1rem;
+            color: #b3b3b3;
+            margin-top: 0;
+        }
+        audio {
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+        #loading-status {
+            margin-top: 1.5rem;
+            color: #b3b3b3;
+        }
+        /* Hide audio controls until loaded */
+        audio:not([controls]) {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="player-container">
+        <h1>{{ submission.song_name }}</h1>
+        <p>by {{ submission.artist_name }}</p>
+
+        <div id="loading-status">Loading...</div>
+
+        <audio id="audio-player" preload="auto">
+            <source src="{{ audio_url }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        const audioPlayer = document.getElementById('audio-player');
+        const loadingStatus = document.getElementById('loading-status');
+
+        let isFullyBuffered = false;
+
+        // This event fires when the browser thinks it can play the whole file
+        audioPlayer.addEventListener('canplaythrough', () => {
+            if (!isFullyBuffered) {
+                isFullyBuffered = true;
+                loadingStatus.textContent = 'Song loaded. Preparing for playback...';
+
+                // Show controls and start playing
+                audioPlayer.setAttribute('controls', 'true');
+                audioPlayer.play();
+
+                // Hide the loading message
+                loadingStatus.style.display = 'none';
+            }
+        });
+
+        // Fallback for browsers that might not fire 'canplaythrough' reliably for full buffer
+        audioPlayer.addEventListener('progress', () => {
+            if (!isFullyBuffered && audioPlayer.duration) {
+                // Check if the buffered time range covers the entire duration
+                if (audioPlayer.buffered.length > 0 && audioPlayer.buffered.end(0) >= audioPlayer.duration) {
+                    isFullyBuffered = true;
+                    loadingStatus.textContent = 'Song fully buffered.';
+
+                    audioPlayer.setAttribute('controls', 'true');
+                    audioPlayer.play();
+                    loadingStatus.style.display = 'none';
+                } else {
+                    const bufferedPercentage = (audioPlayer.buffered.end(0) / audioPlayer.duration) * 100;
+                    loadingStatus.textContent = `Loading... ${Math.round(bufferedPercentage)}%`;
+                }
+            }
+        });
+
+        // Handle cases where the audio might be loaded from cache instantly
+        if (audioPlayer.readyState >= 4) { // HAVE_ENOUGH_DATA
+             if (!isFullyBuffered) {
+                isFullyBuffered = true;
+                loadingStatus.style.display = 'none';
+                audioPlayer.setAttribute('controls', 'true');
+                audioPlayer.play();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment
+.env
+
+# IDEs
+.idea/
+.vscode/
+
+# Logs
+*.log
+uvicorn.log
+
+# Database
+*.db
+*.sqlite3
+
+# Cache
+cache/
+
+# Verification artifacts
+jules-scratch/

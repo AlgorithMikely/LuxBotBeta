@@ -3,6 +3,7 @@ Admin Cog - Handles administrative commands for queue management
 """
 
 import discord
+import os
 from discord.ext import commands
 from discord import app_commands
 from database import QueueLine
@@ -189,15 +190,15 @@ class AdminCog(commands.Cog):
         """Get the next submission following priority order"""
         if not self._has_admin_permissions(interaction):
             await interaction.response.send_message(
-                "❌ You don't have permission to use this command.", 
+                "❌ You don't have permission to use this command.",
                 ephemeral=True
             )
             return
-        
+
         try:
             # Atomically take the next submission and move it to Calls Played
             next_sub = await self.bot.db.take_next_to_calls_played()
-            
+
             if not next_sub:
                 embed = discord.Embed(
                     title="📭 Queue Empty",
@@ -206,45 +207,56 @@ class AdminCog(commands.Cog):
                 )
                 await interaction.response.send_message(embed=embed, ephemeral=True)
                 return
-            
+
             # Create embed for the taken submission
             embed = discord.Embed(
                 title="🎵 Now Playing - Moved to Calls Played",
                 description=f"Moved from **{next_sub['original_line']}** line to **Calls Played**",
                 color=discord.Color.gold()
             )
-            
+
             embed.add_field(name="Submission ID", value=f"#{next_sub['id']}", inline=True)
             embed.add_field(name="Original Line", value=next_sub['original_line'], inline=True)
             embed.add_field(name="Submitted By", value=next_sub['username'], inline=True)
             embed.add_field(name="Artist", value=next_sub['artist_name'], inline=True)
             embed.add_field(name="Song", value=next_sub['song_name'], inline=True)
             
-            if next_sub['link_or_file'].startswith('http'):
-                embed.add_field(name="Link", value=f"[Click Here]({next_sub['link_or_file']})", inline=False)
+            link_or_file = next_sub['link_or_file']
+
+            # Add web player link for file uploads, and the original link for all submissions
+            if link_or_file.startswith('https://cdn.discordapp.com'):
+                # This should be the public IP or domain of the machine running the bot
+                # You can set this in your .env file as WEB_PLAYER_URL
+                base_url = os.getenv('WEB_PLAYER_URL', 'http://127.0.0.1:8000')
+                player_url = f"{base_url}/play/{next_sub['id']}"
+                embed.add_field(name="▶️ Web Player", value=f"[Click to Play]({player_url})", inline=False)
+                embed.add_field(name="Source File", value=f"[Download]({link_or_file})", inline=False)
+            elif link_or_file.startswith('http'):
+                embed.add_field(name="Source Link", value=f"[Click Here]({link_or_file})", inline=False)
             else:
-                embed.add_field(name="File", value=next_sub['link_or_file'], inline=False)
-            
+                # Fallback for non-http data, though this shouldn't happen
+                embed.add_field(name="File Info", value=link_or_file, inline=False)
+
             embed.set_footer(text=f"Submitted on {next_sub['submission_time']}")
-            
+
             # Send to admin who used the command
             await interaction.response.send_message(embed=embed, ephemeral=True)
-            
+
             # Update queue displays for both the origin line and Calls Played
             if hasattr(self.bot, 'get_cog') and self.bot.get_cog('QueueCog'):
                 queue_cog = self.bot.get_cog('QueueCog')
                 await queue_cog.update_queue_display(next_sub['original_line'])
                 await queue_cog.update_queue_display(QueueLine.CALLS_PLAYED.value)
-            
+
             # Also send to DM if possible
             try:
                 await interaction.user.send(embed=embed)
             except discord.Forbidden:
                 pass  # User has DMs disabled
-            
+
         except Exception as e:
             await interaction.response.send_message(
-                f"❌ Error getting next submission: {str(e)}", 
+                f"❌ Error getting next submission: {str(e)}",
                 ephemeral=True
             )
     

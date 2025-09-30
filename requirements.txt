@@ -1,6 +1,8 @@
 discord.py>=2.3.2
 aiosqlite>=0.19.0
 python-dotenv>=1.0.0
-aiosqlite>=0.19.0
-discord.py>=2.3.2
-python-dotenv>=1.0.0
+fastapi>=0.103.2
+uvicorn>=0.23.2
+aiohttp>=3.8.5
+ffmpeg-python>=0.2.0
+Jinja2>=3.1.2
