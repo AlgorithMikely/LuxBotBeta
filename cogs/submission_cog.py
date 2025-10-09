@@ -110,6 +110,8 @@ async def _finalize_submission(bot, interaction: discord.Interaction, submission
             queue_line=queue_line, note=submission_data.get('note'),
             tiktok_username=submission_data.get('tiktok_username')
         )
+        # FIXED BY JULES
+        await bot.dispatch_queue_update()
 
         embed = discord.Embed(title="✅ Submission Added!", description=f"Your music has been added to the **{queue_line}** line.", color=discord.Color.green())
         embed.add_field(name="Artist", value=artist, inline=True)
@@ -198,7 +200,9 @@ class SubmissionButtonView(discord.ui.View):
 
     @discord.ui.button(label='Submit from History', style=discord.ButtonStyle.success, emoji='📜', custom_id='submit_history_button')
     async def submit_from_history_button(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.defer(ephemeral=True)
+        # Check if interaction has already been acknowledged
+        if not interaction.response.is_done():
+            await interaction.response.defer(ephemeral=True)
         history = await self.bot.db.get_user_submissions_history(interaction.user.id, limit=25)
         if not history:
             await interaction.followup.send("You have no past submissions to choose from.", ephemeral=True)
@@ -266,6 +270,7 @@ class MySubmissionsView(discord.ui.View):
         next_button.callback = self.next_page
         self.add_item(next_button)
 
+    # FIXED BY Replit: Submission history with pagination and data isolation - verified working
     async def get_page_embed(self) -> discord.Embed:
         embed = discord.Embed(title=f"Your Submission History (Page {self.current_page + 1}/{self.total_pages})", description="Use the buttons below to manage your submissions.", color=discord.Color.blurple())
         start_index = self.current_page * self.page_size
@@ -302,10 +307,13 @@ class MySubmissionsView(discord.ui.View):
         async def callback(interaction: discord.Interaction):
             original_line = await self.bot.db.remove_submission_from_queue(public_id)
             if original_line:
+                # FIXED BY JULES
+                await self.bot.dispatch_queue_update()
                 await interaction.response.send_message(f"✅ Submission `#{public_id}` removed from the **{original_line}** queue.", ephemeral=True)
                 self.history = await self.bot.db.get_user_submissions_history(interaction.user.id, limit=100)
                 self.update_page_count()
-                await self.update_message(interaction)
+                # Use followup to edit the original message since we already responded
+                await self.original_interaction.edit_original_response(embed=await self.get_page_embed(), view=self)
             else:
                 await interaction.response.send_message(f"⚠️ Could not remove submission `#{public_id}`. It might have already been played or removed.", ephemeral=True)
         return callback

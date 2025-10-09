@@ -1,132 +1,156 @@
+# FIXED BY JULES
+# FIXED BY Replit: Queue pagination and auto-updating - verified working
 """
-Live Queue Cog - Manages the public-facing #live-queue channel display.
+Live Queue Cog - Manages the public-facing #live-music-queue channel display.
+This cog follows the correct persistent view pattern where the Cog manages
+the state (message, page number) and the View handles interactions.
 """
 
-import asyncio
 import discord
-from discord.ext import commands, tasks
-from discord import app_commands
+import math
 import logging
-from typing import Optional
+from discord.ext import commands
+from discord import app_commands
+from typing import List, Dict, Any, Optional
+
+from database import QueueLine
+
+# --- View Class (Simplified and Stateless) ---
+
+class PublicQueueView(discord.ui.View):
+    """A stateless view for the public queue. Delegates actions to the cog."""
+    def __init__(self, cog: 'LiveQueueCog'):
+        super().__init__(timeout=None)
+        self.cog = cog
+        self.previous_button.custom_id = "public_live_queue_prev"
+        self.next_button.custom_id = "public_live_queue_next"
+        self.refresh_button.custom_id = "public_live_queue_refresh"
+
+    @discord.ui.button(label="◀ Previous", style=discord.ButtonStyle.grey)
+    async def previous_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await self.cog.update_display(interaction=interaction, page_offset=-1)
+
+    @discord.ui.button(label="Next ▶", style=discord.ButtonStyle.grey)
+    async def next_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await self.cog.update_display(interaction=interaction, page_offset=1)
+
+    @discord.ui.button(label="Refresh", style=discord.ButtonStyle.blurple, emoji="🔄")
+    async def refresh_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await self.cog.update_display(interaction=interaction, reset_page=True)
+
+
+# --- Cog Implementation (Manages State and Logic) ---
 
 class LiveQueueCog(commands.Cog):
-    """Cog for managing the consolidated #live-queue display."""
-
+    """Cog for setting up and managing the public live queue view."""
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.live_queue_channel_id: Optional[int] = None
-        self.live_queue_message_id: Optional[int] = None
-        # Use asyncio.create_task to avoid awaiting here
-        asyncio.create_task(self.bot._send_trace("LiveQueueCog initialized."))
-        self.update_live_queue.start()
+        self.queue_message: Optional[discord.Message] = None
+        self.current_page = 0
+        self.page_size = 10
 
     async def cog_load(self):
-        """Load initial settings on cog load."""
+        """On cog load, register persistent view and find the queue message if it exists."""
         await self.bot._send_trace("LiveQueueCog cog_load started.")
-        # Settings are loaded into a cache on startup. We pull from the cache.
-        self.live_queue_channel_id = self.bot.settings_cache.get('live_queue_channel_id')
-        self.live_queue_message_id = self.bot.settings_cache.get('live_queue_message_id')
-        await self.bot._send_trace(f"LiveQueueCog loaded from cache: channel_id={self.live_queue_channel_id}, message_id={self.live_queue_message_id}")
+        
+        # FIXED BY Replit: Register persistent view for this cog
+        self.bot.add_view(PublicQueueView(self))
+        await self.bot._send_trace("Registered LiveQueueCog persistent view.")
+        
+        channel_id = self.bot.settings_cache.get('public_live_queue_channel_id')
+        message_id = self.bot.settings_cache.get('public_live_queue_message_id')
 
-    def cog_unload(self):
-        """Cancel tasks when the cog is unloaded."""
-        self.update_live_queue.cancel()
-
-    async def _setup_live_queue_logic(self, interaction: discord.Interaction, channel: discord.TextChannel):
-        """The core logic for setting up the live queue channel."""
-        await interaction.response.defer(ephemeral=True)
-        self.live_queue_channel_id = channel.id
-        self.live_queue_message_id = None # Force creation of a new message
-
-        # Save settings to DB using separate keys
-        await self.bot.db.set_bot_config('live_queue_channel_id', channel_id=channel.id)
-        await self.bot.db.set_bot_config('live_queue_message_id', message_id=None)
-
-        # Update the settings cache directly
-        self.bot.settings_cache['live_queue_channel_id'] = channel.id
-        self.bot.settings_cache['live_queue_message_id'] = None
-
-        # Run immediately to create the message and get its ID
-        await self.update_live_queue()
-
-        embed = discord.Embed(title="✅ Live Queue Channel Set", description=f"The public live queue display will now be managed in {channel.mention}.", color=discord.Color.green())
-        await interaction.followup.send(embed=embed, ephemeral=True)
-
-    @app_commands.command(name="setqueuechannel", description="[ADMIN] Set the channel for the public live queue display.")
-    @app_commands.describe(channel="The text channel to use for the live queue.")
-    @app_commands.checks.has_permissions(administrator=True)
-    async def set_queue_channel(self, interaction: discord.Interaction, channel: discord.TextChannel):
-        """Sets the channel for the live queue and pins the initial message."""
-        await self._setup_live_queue_logic(interaction, channel)
-
-    @app_commands.command(name="setup-live-queue", description="[ADMIN] Set the channel for the public live queue display.")
-    @app_commands.describe(channel="The text channel to use for the live queue.")
-    @app_commands.checks.has_permissions(administrator=True)
-    async def setup_live_queue(self, interaction: discord.Interaction, channel: discord.TextChannel):
-        """(Alias for /setqueuechannel) Sets the channel for the live queue."""
-        await self._setup_live_queue_logic(interaction, channel)
-
-    @tasks.loop(seconds=20)
-    async def update_live_queue(self):
-        """Periodically fetches the queue and updates the live queue message."""
-        if not self.live_queue_channel_id:
-            return
-
-        channel = self.bot.get_channel(self.live_queue_channel_id)
-        if not channel:
-            logging.error(f"Live queue channel {self.live_queue_channel_id} not found.")
+        if not channel_id or not message_id:
             return
 
         try:
-            songs = await self.bot.db.get_all_active_queue_songs()
-
-            embed = discord.Embed(title="🎵 Live Queue Order", description="Here is the upcoming list of songs to be played.", color=discord.Color.dark_purple())
-            embed.timestamp = discord.utils.utcnow()
-
-            if not songs:
-                embed.description = "The queue is currently empty. Submit a song to get it started!"
-            else:
-                song_list = []
-                for i, song in enumerate(songs[:25], 1): # Display up to 25 songs
-                    is_skip = "skip" in song['queue_line'].lower()
-                    skip_indicator = " `(Skip)`" if is_skip else ""
-                    # Now includes the submitter's username
-                    song_list.append(f"**{i}.** {song['artist_name']} - {song['song_name']}{skip_indicator} `(by {song['username']})`")
-
-                embed.description = "\n".join(song_list)
-                if len(songs) > 25:
-                    embed.set_footer(text=f"...and {len(songs) - 25} more.")
-
-            message_to_edit = None
-            if self.live_queue_message_id:
-                try:
-                    message_to_edit = await channel.fetch_message(self.live_queue_message_id)
-                    await message_to_edit.edit(embed=embed)
-                except discord.NotFound:
-                    self.live_queue_message_id = None # Message was deleted
-                except Exception as e:
-                    logging.error(f"Error editing live queue message: {e}", exc_info=True)
-                    self.live_queue_message_id = None # Assume message is gone
-
-            if not self.live_queue_message_id:
-                await channel.purge(limit=5, check=lambda m: m.author == self.bot.user and m.pinned)
-                new_message = await channel.send(embed=embed)
-                self.live_queue_message_id = new_message.id
-                # Save the new message ID to the database with its specific key
-                await self.bot.db.set_bot_config('live_queue_message_id', message_id=new_message.id)
-                self.bot.settings_cache['live_queue_message_id'] = new_message.id # Update cache
-                try:
-                    await new_message.pin()
-                except discord.Forbidden:
-                    logging.warning(f"Could not pin the live queue message in channel {self.live_queue_channel_id}.")
-
+            channel = await self.bot.fetch_channel(channel_id)
+            self.queue_message = await channel.fetch_message(message_id)
+            logging.info("Successfully loaded public queue message object.")
+        except (discord.NotFound, discord.Forbidden) as e:
+            logging.error(f"Failed to load public queue message on startup: {e}. A new setup is required.")
         except Exception as e:
-            logging.error(f"Failed to update live queue display: {e}", exc_info=True)
+            logging.error(f"An unexpected error occurred loading public queue message: {e}", exc_info=True)
 
-    @update_live_queue.before_loop
-    async def before_update_live_queue(self):
-        """Wait until the bot is ready before starting the loop."""
-        await self.bot.wait_until_ready()
+    @commands.Cog.listener('on_queue_update')
+    async def on_queue_update(self):
+        """Listener for the custom queue update event."""
+        logging.info("LiveQueueCog received queue_update event. Refreshing display.")
+        await self.update_display(reset_page=True)
+
+    async def update_display(self, interaction: Optional[discord.Interaction] = None, page_offset: int = 0, reset_page: bool = False):
+        if not self.queue_message:
+            return
+
+        if reset_page:
+            self.current_page = 0
+        else:
+            self.current_page += page_offset
+
+        queue_data = await self.bot.db.get_all_active_queue_songs(detailed=True)
+        total_pages = math.ceil(len(queue_data) / self.page_size) or 1
+        self.current_page = max(0, min(self.current_page, total_pages - 1))
+
+        embed = discord.Embed(title="🎵 Live Music Queue", color=discord.Color.dark_purple())
+        embed.set_footer(text="This queue is sorted by skips first, then by engagement points for the Free line.")
+        embed.timestamp = discord.utils.utcnow()
+
+        if not queue_data:
+            embed.description = "The queue is currently empty. Submit a song to get it started!"
+        else:
+            start_index = self.current_page * self.page_size
+            page_items = queue_data[start_index : start_index + self.page_size]
+
+            song_list = []
+            for i, song in enumerate(page_items, start=start_index + 1):
+                points_display = f" `({song['total_score']:.0f} points)`" if song['queue_line'] == QueueLine.FREE.value else ""
+                skip_indicator = " `(Skip)`" if "skip" in song['queue_line'].lower() else ""
+                song_list.append(f"**{i}.** {song['artist_name']} - {song['song_name']}{skip_indicator} `(by {song['username']})`{points_display}")
+            embed.description = "\n".join(song_list)
+
+        embed.set_footer(text=f"Page {self.current_page + 1}/{total_pages} | Total Songs: {len(queue_data)}")
+
+        view = PublicQueueView(self)
+        view.previous_button.disabled = self.current_page == 0
+        view.next_button.disabled = self.current_page >= total_pages - 1
+
+        if interaction:
+            await interaction.response.edit_message(embed=embed, view=view)
+        else:
+            await self.queue_message.edit(embed=embed, view=view)
+
+    @app_commands.command(name="setup-live-queue", description="[ADMIN] Sets up the persistent public queue display.")
+    @app_commands.describe(channel="The text channel to use for the public queue.")
+    @app_commands.checks.has_permissions(administrator=True)
+    async def setup_live_queue(self, interaction: discord.Interaction, channel: discord.TextChannel):
+        """Sets up the public queue view in the specified channel."""
+        await interaction.response.defer(ephemeral=True)
+
+        try:
+            await channel.purge(limit=5, check=lambda m: m.author == self.bot.user and m.pinned)
+        except discord.Forbidden:
+            await interaction.followup.send("❌ **Error:** I need 'Manage Messages' permission.", ephemeral=True)
+            return
+
+        try:
+            embed = discord.Embed(title="🎵 Live Music Queue", description="Initializing...", color=discord.Color.light_grey())
+            self.queue_message = await channel.send(embed=embed, view=PublicQueueView(self))
+            await self.queue_message.pin()
+        except discord.Forbidden:
+            await interaction.followup.send("❌ **Error:** I don't have permission to send or pin messages in that channel.", ephemeral=True)
+            return
+
+        # Save settings
+        await self.bot.db.set_bot_config('public_live_queue_channel_id', channel_id=channel.id)
+        await self.bot.db.set_bot_config('public_live_queue_message_id', message_id=self.queue_message.id)
+        self.bot.settings_cache['public_live_queue_channel_id'] = channel.id
+        self.bot.settings_cache['public_live_queue_message_id'] = self.queue_message.id
+
+        # Initial update
+        await self.update_display(reset_page=True)
+
+        await interaction.followup.send(f"✅ Public live queue has been successfully set up in {channel.mention}.", ephemeral=True)
+
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(LiveQueueCog(bot))

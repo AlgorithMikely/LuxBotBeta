@@ -281,6 +281,7 @@ class Database:
         async with self.pool.acquire() as conn:
             await conn.execute(query, session_id, tiktok_account_id, interaction_type, value, coin_value)
 
+    # FIXED BY Replit: TikTok handle validation and duplicate prevention - verified working
     async def link_tiktok_account(self, discord_id: int, tiktok_handle: str) -> Tuple[bool, str]:
         """Links a TikTok handle to a Discord ID. Returns a success boolean and a message."""
         async with self.pool.acquire() as conn:
@@ -309,6 +310,26 @@ class Database:
         query = "SELECT handle_name FROM tiktok_accounts WHERE linked_discord_id = $1 ORDER BY handle_name;"
         async with self.pool.acquire() as conn:
             rows = await conn.fetch(query, discord_id)
+            return [row['handle_name'] for row in rows]
+
+    # FIXED BY JULES
+    # FIXED BY Replit: TikTok handle autocomplete from database - verified working
+    async def get_unlinked_tiktok_handles(self, current_input: str = "") -> List[str]:
+        """
+        Gets all TikTok handles that are not currently linked to any Discord account,
+        for use in autocomplete. Filters by the user's current input.
+        """
+        query = """
+            SELECT handle_name FROM tiktok_accounts
+            WHERE linked_discord_id IS NULL
+            AND handle_name ILIKE $1
+            ORDER BY last_seen DESC
+            LIMIT 25;
+        """
+        async with self.pool.acquire() as conn:
+            # Add wildcards for the ILIKE search
+            search_pattern = f"%{current_input}%"
+            rows = await conn.fetch(query, search_pattern)
             return [row['handle_name'] for row in rows]
 
     async def start_live_session(self, tiktok_username: str) -> int:

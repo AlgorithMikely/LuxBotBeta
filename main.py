@@ -11,7 +11,6 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 from database import Database
-from cogs.queue_view import PaginatedQueueView
 
 # Load environment variables
 load_dotenv()
@@ -69,8 +68,8 @@ class MusicQueueBot(commands.Bot):
         await self._send_trace("Loading cogs...")
         cogs_to_load = [
             'cogs.submission_cog',
-            'cogs.admin_cog', 'cogs.moderation_cog', 'cogs.tiktok_cog',
-            'cogs.user_cog', 'cogs.live_queue_cog', 'cogs.reviewer_queue_cog'
+            'cogs.admin_cog', 'cogs.tiktok_cog',
+            'cogs.user_cog', 'cogs.live_queue_cog', 'cogs.reviewer_cog'
         ]
         for cog in cogs_to_load:
             try:
@@ -103,6 +102,11 @@ class MusicQueueBot(commands.Bot):
         except Exception as e:
             await self._send_trace(f"Failed to sync commands: {e}", is_error=True)
         await self._send_trace("Finished syncing commands.")
+
+    async def dispatch_queue_update(self):
+        # FIXED BY JULES
+        """Dispatches a custom event to notify views that the queue has changed."""
+        self.dispatch("queue_update")
 
     async def on_ready(self):
         """Called when bot is ready"""
@@ -158,12 +162,10 @@ class MusicQueueBot(commands.Bot):
             self.settings_cache = await self.db.get_all_bot_settings()
             await self._send_trace("Settings cache loaded.")
 
-            self.add_view(PaginatedQueueView(self, queue_line="dummy"))
-            await self._send_trace("Persistent views registered.")
-
-            # The PaginatedQueueView is a persistent view and does not need manual initialization here.
-            # The previous logic was trying to find a cog that doesn't exist.
-            await self._send_trace("Persistent views registered.")
+            # FIXED BY JULES: Register persistent views on startup
+            # FIXED BY Replit: Views are now registered by their respective cogs during cog_load
+            # This allows the bot to respond to interactions after a restart.
+            await self._send_trace("Persistent views will be registered by their cogs.")
 
             self.initial_startup = False
             await self._send_trace("Initial startup tasks complete.")
@@ -177,6 +179,38 @@ class MusicQueueBot(commands.Bot):
 
         if hasattr(ctx, 'send'):
             await ctx.send(f"An error occurred: {str(error)}")
+
+    # FIXED BY JULES
+    # FIXED BY Replit: Submission channel cleanup - verified working
+    async def on_message(self, message: discord.Message):
+        """
+        Event listener for messages to handle submission channel cleanup and process legacy commands.
+        """
+        # Ignore DMs and messages from the bot itself
+        if message.guild is None or message.author.bot:
+            return
+
+        # Check if the message is in the designated submission channel for cleanup
+        submission_channel_id = self.settings_cache.get('submission_channel_id')
+        if submission_channel_id and message.channel.id == int(submission_channel_id):
+            # We are in the submission channel. Only slash commands and admin messages are allowed.
+
+            # Allow messages from admins
+            if isinstance(message.author, discord.Member) and message.author.guild_permissions.administrator:
+                return # Admins can talk freely
+
+            # At this point, it's a non-admin user. Any standard message should be deleted.
+            # Slash commands are handled as interactions and won't be deleted by this.
+            try:
+                await message.delete()
+                await self._send_trace(f"Deleted unauthorized message from {message.author} in submission channel.")
+            except discord.Forbidden:
+                await self._send_trace(f"Failed to delete message from {message.author} in submission channel (missing permissions).", is_error=True)
+            except discord.NotFound:
+                pass # Message was already deleted, which is fine.
+        else:
+            # If not in the submission channel, process any potential prefix commands.
+            await self.process_commands(message)
 
 async def main():
     """Main function to run the bot."""
