@@ -60,8 +60,22 @@ class Database:
                         handle_name TEXT UNIQUE NOT NULL,
                         first_seen TIMESTAMPTZ DEFAULT NOW(),
                         last_seen TIMESTAMPTZ DEFAULT NOW(),
-                        linked_discord_id BIGINT
+                        linked_discord_id BIGINT,
+                        points INTEGER DEFAULT 0 NOT NULL
                     );
+                """)
+                
+                # Add points column if it doesn't exist (migration)
+                await conn.execute("""
+                    DO $$ 
+                    BEGIN
+                        IF NOT EXISTS (
+                            SELECT 1 FROM information_schema.columns 
+                            WHERE table_name='tiktok_accounts' AND column_name='points'
+                        ) THEN
+                            ALTER TABLE tiktok_accounts ADD COLUMN points INTEGER DEFAULT 0 NOT NULL;
+                        END IF;
+                    END $$;
                 """)
 
                 # tiktok_interactions for logging all interactions
@@ -124,6 +138,18 @@ class Database:
                     );
                 """)
 
+                # Create performance indices for frequently queried columns
+                await conn.execute("CREATE INDEX IF NOT EXISTS idx_submissions_user_id ON submissions(user_id);")
+                await conn.execute("CREATE INDEX IF NOT EXISTS idx_submissions_queue_line ON submissions(queue_line);")
+                await conn.execute("CREATE INDEX IF NOT EXISTS idx_submissions_played_time ON submissions(played_time);")
+                await conn.execute("CREATE INDEX IF NOT EXISTS idx_submissions_submission_time ON submissions(submission_time);")
+                await conn.execute("CREATE INDEX IF NOT EXISTS idx_tiktok_interactions_session_id ON tiktok_interactions(session_id);")
+                await conn.execute("CREATE INDEX IF NOT EXISTS idx_tiktok_interactions_tiktok_account_id ON tiktok_interactions(tiktok_account_id);")
+                await conn.execute("CREATE INDEX IF NOT EXISTS idx_tiktok_accounts_linked_discord_id ON tiktok_accounts(linked_discord_id);")
+                
+                # Composite index for Free queue ordering (critical for performance)
+                await conn.execute("CREATE INDEX IF NOT EXISTS idx_submissions_free_queue ON submissions(queue_line, total_score DESC, submission_time ASC) WHERE queue_line = 'Free';")
+
         logging.info("Database initialized successfully.")
 
     @property
@@ -166,7 +192,8 @@ class Database:
         if queue_line == QueueLine.SONGS_PLAYED.value:
             query = "SELECT * FROM submissions WHERE queue_line = $1 AND played_time IS NOT NULL ORDER BY played_time DESC"
         elif queue_line == QueueLine.FREE.value:
-            query = "SELECT s.*, u.points FROM submissions s LEFT JOIN user_points u ON s.user_id = u.user_id WHERE s.queue_line = $1 ORDER BY u.points DESC, s.submission_time ASC"
+            # Use total_score (synced from user_points) for consistent ordering with composite index
+            query = "SELECT * FROM submissions WHERE queue_line = $1 ORDER BY total_score DESC, submission_time ASC"
         else:
             query = "SELECT * FROM submissions WHERE queue_line = $1 ORDER BY submission_time ASC"
         async with self.pool.acquire() as conn:
@@ -185,9 +212,9 @@ class Database:
                 for queue_line in priority_order:
                     if queue_line == QueueLine.FREE.value:
                         # Order by the pre-calculated total_score to avoid the problematic JOIN with FOR UPDATE
-                        find_query = "SELECT id, queue_line FROM submissions WHERE queue_line = $1 ORDER BY total_score DESC, submission_time ASC LIMIT 1 FOR UPDATE"
+                        find_query = "SELECT id, queue_line, user_id FROM submissions WHERE queue_line = $1 ORDER BY total_score DESC, submission_time ASC LIMIT 1 FOR UPDATE"
                     else:
-                        find_query = "SELECT id, queue_line FROM submissions WHERE queue_line = $1 ORDER BY submission_time ASC LIMIT 1 FOR UPDATE"
+                        find_query = "SELECT id, queue_line, user_id FROM submissions WHERE queue_line = $1 ORDER BY submission_time ASC LIMIT 1 FOR UPDATE"
 
                     submission_to_move = await conn.fetchrow(find_query, queue_line)
                     if submission_to_move:
@@ -198,6 +225,21 @@ class Database:
                         if updated_sub:
                             updated_dict = dict(updated_sub)
                             updated_dict['original_line'] = submission_to_move['queue_line']
+                            
+                            # If song was from Free Line, reset points for submitter and all linked handles
+                            if submission_to_move['queue_line'] == QueueLine.FREE.value:
+                                user_id = submission_to_move['user_id']
+                                # Reset Discord user points
+                                await conn.execute(
+                                    "INSERT INTO user_points (user_id, points) VALUES ($1, 0) ON CONFLICT (user_id) DO UPDATE SET points = 0;",
+                                    user_id
+                                )
+                                # Reset all linked TikTok handle points
+                                await conn.execute(
+                                    "UPDATE tiktok_accounts SET points = 0 WHERE linked_discord_id = $1;",
+                                    user_id
+                                )
+                            
                             return updated_dict
         return None
 
@@ -226,6 +268,19 @@ class Database:
         async with self.pool.acquire() as conn:
             await conn.execute(query, user_id)
 
+    async def reset_user_and_linked_handles_points(self, user_id: int):
+        """Resets points for a Discord user and all their linked TikTok handles."""
+        async with self.pool.acquire() as conn:
+            # Reset Discord user points
+            await conn.execute("INSERT INTO user_points (user_id, points) VALUES ($1, 0) ON CONFLICT (user_id) DO UPDATE SET points = 0;", user_id)
+            # Reset all linked TikTok handle points
+            await conn.execute("UPDATE tiktok_accounts SET points = 0 WHERE linked_discord_id = $1;", user_id)
+
+    async def reset_all_tiktok_handles_points(self):
+        """Resets points for ALL TikTok handles in the system."""
+        async with self.pool.acquire() as conn:
+            await conn.execute("UPDATE tiktok_accounts SET points = 0;")
+
     async def add_points_to_user(self, user_id: int, points_to_add: int):
         """Adds points to a user's score. Creates the user if they don't exist."""
         query = """
@@ -236,6 +291,60 @@ class Database:
         """
         async with self.pool.acquire() as conn:
             await conn.execute(query, user_id, points_to_add)
+
+    async def add_points_to_tiktok_handle(self, handle_name: str, points_to_add: int):
+        """Adds points to a TikTok handle. Creates the handle if it doesn't exist."""
+        query = """
+            INSERT INTO tiktok_accounts (handle_name, points)
+            VALUES ($1, $2)
+            ON CONFLICT (handle_name) DO UPDATE
+            SET points = tiktok_accounts.points + $2, last_seen = NOW();
+        """
+        async with self.pool.acquire() as conn:
+            await conn.execute(query, handle_name, points_to_add)
+
+    async def get_tiktok_handle_points(self, handle_name: str) -> int:
+        """Gets the points for a TikTok handle."""
+        query = "SELECT points FROM tiktok_accounts WHERE handle_name = $1"
+        async with self.pool.acquire() as conn:
+            points = await conn.fetchval(query, handle_name)
+            return points if points is not None else 0
+
+    async def get_tiktok_handle_points_breakdown(self, handle_name: str) -> Dict[str, int]:
+        """Gets detailed points breakdown by interaction type for a TikTok handle."""
+        query = """
+            SELECT 
+                interaction_type,
+                COUNT(*) as count,
+                COALESCE(SUM(coin_value), 0) as total_coins
+            FROM tiktok_interactions ti
+            JOIN tiktok_accounts ta ON ti.tiktok_account_id = ta.handle_id
+            WHERE ta.handle_name = $1
+            GROUP BY interaction_type
+        """
+        async with self.pool.acquire() as conn:
+            rows = await conn.fetch(query, handle_name)
+            breakdown = {
+                'likes': 0,
+                'comments': 0,
+                'shares': 0,
+                'follows': 0,
+                'coins': 0
+            }
+            for row in rows:
+                interaction_type = row['interaction_type']
+                count = row['count']
+                if interaction_type == 'like':
+                    breakdown['likes'] = count
+                elif interaction_type == 'comment':
+                    breakdown['comments'] = count
+                elif interaction_type == 'share':
+                    breakdown['shares'] = count
+                elif interaction_type == 'follow':
+                    breakdown['follows'] = count
+                elif interaction_type == 'gift':
+                    breakdown['coins'] = row['total_coins']
+            return breakdown
 
     async def sync_submission_scores(self):
         """Updates the total_score for all submissions in the Free queue from the user_points table."""
@@ -332,6 +441,22 @@ class Database:
             rows = await conn.fetch(query, search_pattern)
             return [row['handle_name'] for row in rows]
 
+    async def get_all_tiktok_handles(self, current_input: str = "") -> List[str]:
+        """
+        Gets all known TikTok handles for autocomplete during submission.
+        Filters by the user's current input.
+        """
+        query = """
+            SELECT handle_name FROM tiktok_accounts
+            WHERE handle_name ILIKE $1
+            ORDER BY last_seen DESC
+            LIMIT 25;
+        """
+        async with self.pool.acquire() as conn:
+            search_pattern = f"%{current_input}%"
+            rows = await conn.fetch(query, search_pattern)
+            return [row['handle_name'] for row in rows]
+
     async def start_live_session(self, tiktok_username: str) -> int:
         """Starts a new live session and returns the session ID."""
         query = "INSERT INTO live_sessions (tiktok_username) VALUES ($1) RETURNING id;"
@@ -357,7 +482,7 @@ class Database:
     async def get_session_user_stats(self, session_id: int) -> List[Dict[str, Any]]:
         """
         Calculates per-user interaction stats for a specific session,
-        grouping by the user.
+        including watch time (calculated as time span from first to last interaction).
         """
         query = """
             SELECT
@@ -366,13 +491,48 @@ class Database:
                 SUM(CASE WHEN ti.interaction_type = 'like' THEN 1 ELSE 0 END) AS likes,
                 SUM(CASE WHEN ti.interaction_type = 'comment' THEN 1 ELSE 0 END) AS comments,
                 SUM(CASE WHEN ti.interaction_type = 'share' THEN 1 ELSE 0 END) AS shares,
-                SUM(CASE WHEN ti.interaction_type = 'gift' THEN ti.coin_value ELSE 0 END) AS gift_coins
+                SUM(CASE WHEN ti.interaction_type = 'gift' THEN 1 ELSE 0 END) AS gifts,
+                SUM(CASE WHEN ti.interaction_type = 'gift' THEN ti.coin_value ELSE 0 END) AS gift_coins,
+                EXTRACT(EPOCH FROM (MAX(ti.timestamp) - MIN(ti.timestamp))) AS watch_time_seconds
             FROM
                 tiktok_interactions ti
             JOIN
                 tiktok_accounts ta ON ti.tiktok_account_id = ta.handle_id
             WHERE
                 ti.session_id = $1 AND ta.linked_discord_id IS NOT NULL
+            GROUP BY
+                ta.linked_discord_id, ta.handle_name
+            ORDER BY
+                SUM(CASE WHEN ti.interaction_type = 'gift' THEN ti.coin_value ELSE 0 END) DESC,
+                COUNT(ti.id) DESC;
+        """
+        async with self.pool.acquire() as conn:
+            rows = await conn.fetch(query, session_id)
+            return [dict(row) for row in rows]
+    
+    # FIXED BY JULES: New function to get ALL TikTok handles (linked and unlinked) for post-live metrics
+    async def get_session_all_handles_stats(self, session_id: int) -> List[Dict[str, Any]]:
+        """
+        Calculates per-handle interaction stats for ALL TikTok handles (linked and unlinked),
+        sorted by total engagement points (coins descending, then interaction count descending).
+        """
+        query = """
+            SELECT
+                ta.linked_discord_id,
+                ta.handle_name as tiktok_username,
+                SUM(CASE WHEN ti.interaction_type = 'like' THEN 1 ELSE 0 END) AS likes,
+                SUM(CASE WHEN ti.interaction_type = 'comment' THEN 1 ELSE 0 END) AS comments,
+                SUM(CASE WHEN ti.interaction_type = 'share' THEN 1 ELSE 0 END) AS shares,
+                SUM(CASE WHEN ti.interaction_type = 'gift' THEN 1 ELSE 0 END) AS gifts,
+                SUM(CASE WHEN ti.interaction_type = 'gift' THEN ti.coin_value ELSE 0 END) AS gift_coins,
+                EXTRACT(EPOCH FROM (MAX(ti.timestamp) - MIN(ti.timestamp))) AS watch_time_seconds,
+                COUNT(ti.id) AS total_interactions
+            FROM
+                tiktok_interactions ti
+            JOIN
+                tiktok_accounts ta ON ti.tiktok_account_id = ta.handle_id
+            WHERE
+                ti.session_id = $1
             GROUP BY
                 ta.linked_discord_id, ta.handle_name
             ORDER BY

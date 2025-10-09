@@ -112,6 +112,9 @@ class ReviewerCog(commands.Cog):
         if not self.main_queue_message:
             return
 
+        if interaction:
+            await interaction.response.defer()
+
         if reset_page:
             self.main_queue_page = 0
         else:
@@ -132,9 +135,27 @@ class ReviewerCog(commands.Cog):
 
             song_list = []
             for i, song in enumerate(page_items, start=start_index + 1):
-                score = f"**Score:** {song['total_score']:.0f} | " if song['queue_line'] == QueueLine.FREE.value else ""
-                submitter = f"**By:** {song['username']} (`{song['tiktok_username'] or 'N/A'}`)"
-                song_list.append(f"**{i}.** `#{song['public_id']}` {song['artist_name']} - {song['song_name']} `({song['queue_line']})`\n> {score}{submitter}")
+                tiktok_handle = song['tiktok_username'] or 'N/A'
+                
+                # Get points breakdown for TikTok handle
+                points_text = ""
+                if tiktok_handle != 'N/A':
+                    breakdown = await self.bot.db.get_tiktok_handle_points_breakdown(tiktok_handle)
+                    total_points = await self.bot.db.get_tiktok_handle_points(tiktok_handle)
+                    points_parts = []
+                    if breakdown['likes'] > 0:
+                        points_parts.append(f"👍 {breakdown['likes']}")
+                    if breakdown['comments'] > 0:
+                        points_parts.append(f"💬 {breakdown['comments']}")
+                    if breakdown['shares'] > 0:
+                        points_parts.append(f"🔁 {breakdown['shares']}")
+                    if breakdown['coins'] > 0:
+                        points_parts.append(f"🪙 {breakdown['coins']}")
+                    if points_parts:
+                        points_text = f"\n> **Points:** {' | '.join(points_parts)} → Total: {total_points} pts"
+                
+                submitter = f"**By:** {song['username']} (@{tiktok_handle})"
+                song_list.append(f"**{i}.** `#{song['public_id']}` {song['artist_name']} - {song['song_name']} `({song['queue_line']})`\n> {submitter}{points_text}")
             embed.description = "\n".join(song_list)
 
         embed.set_footer(text=f"Page {self.main_queue_page + 1}/{total_pages} | Total Songs: {len(queue_data)}")
@@ -152,6 +173,9 @@ class ReviewerCog(commands.Cog):
     async def update_pending_skips_display(self, interaction: Optional[discord.Interaction] = None, page_offset: int = 0, reset_page: bool = False):
         if not self.pending_skips_message:
             return
+
+        if interaction:
+            await interaction.response.defer()
 
         if reset_page:
             self.pending_skips_page = 0

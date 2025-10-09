@@ -39,3 +39,453 @@ AttributeError: 'NoneType' object has no attribute 'room_id'
 2025-10-09 04:09:22,067:INFO:root: Database initialized successfully.
 2025-10-09 04:09:23,512:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
 2025-10-09 04:09:24,050:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 981a771cea4fdfa682cd195b4dad8e41).
+2025-10-09 05:22:41,466:CRITICAL:root: DISCORD_BOT_TOKEN environment variable not found! The bot cannot start.
+2025-10-09 05:24:00,480:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 05:24:00,480:INFO:discord.client: logging in using static token
+2025-10-09 05:24:04,835:INFO:root: Database pool created.
+2025-10-09 05:24:04,892:INFO:root: Database initialized successfully.
+2025-10-09 05:24:05,892:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: df4bac361bb1e536e253179b9dbc3877).
+2025-10-09 05:50:17,560:CRITICAL:root: DISCORD_BOT_TOKEN environment variable not found! The bot cannot start.
+2025-10-09 05:51:07,921:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 05:51:07,922:INFO:discord.client: logging in using static token
+2025-10-09 05:51:12,464:INFO:root: Database pool created.
+2025-10-09 05:51:12,560:INFO:root: Database initialized successfully.
+2025-10-09 05:51:13,881:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 05:51:14,765:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: fe9bca89080ea02bca599bcb04c58196).
+2025-10-09 05:57:07,191:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 05:57:07,191:INFO:discord.client: logging in using static token
+2025-10-09 05:57:07,639:INFO:root: Database pool created.
+2025-10-09 05:57:07,649:INFO:root: Database initialized successfully.
+2025-10-09 05:57:09,162:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 05:57:09,890:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 7861fb5e9bd262b290220b4697af6b91).
+2025-10-09 05:58:20,455:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 05:58:20,455:INFO:discord.client: logging in using static token
+2025-10-09 05:58:21,126:INFO:root: Database pool created.
+2025-10-09 05:58:21,134:INFO:root: Database initialized successfully.
+2025-10-09 05:58:22,414:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 05:58:23,161:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: ca87e5d394f3ac1e73b23ec291c65ede).
+2025-10-09 06:00:11,826:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 06:00:11,829:INFO:discord.client: logging in using static token
+2025-10-09 06:00:12,674:INFO:root: Database pool created.
+2025-10-09 06:00:12,679:INFO:root: Database initialized successfully.
+2025-10-09 06:00:13,813:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 06:00:14,566:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 0f7286b1080841d0e073fba6d74a35ec).
+2025-10-09 11:29:32,922:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 11:29:32,922:INFO:discord.client: logging in using static token
+2025-10-09 11:29:33,401:INFO:root: Database pool created.
+2025-10-09 11:29:33,441:INFO:root: Database initialized successfully.
+2025-10-09 11:29:34,609:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 11:29:35,245:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 2906a6f54dbfbbefb864a0a92285a65c).
+2025-10-09 11:30:08,137:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 11:30:08,138:INFO:discord.client: logging in using static token
+2025-10-09 11:30:08,730:INFO:root: Database pool created.
+2025-10-09 11:30:08,757:INFO:root: Database initialized successfully.
+2025-10-09 11:30:10,171:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 11:30:11,222:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 84697a55857b15529b9c25348383c507).
+2025-10-09 11:33:49,988:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 11:33:49,988:INFO:discord.client: logging in using static token
+2025-10-09 11:33:50,431:INFO:root: Database pool created.
+2025-10-09 11:33:50,458:INFO:root: Database initialized successfully.
+2025-10-09 11:33:51,746:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 11:33:52,452:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: a0fe8b9f73bec0e04f04845bd413bead).
+2025-10-09 11:34:51,554:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 11:34:51,557:INFO:discord.client: logging in using static token
+2025-10-09 11:34:52,023:INFO:root: Database pool created.
+2025-10-09 11:34:52,058:INFO:root: Database initialized successfully.
+2025-10-09 11:34:53,366:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 11:34:53,949:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: ace90f81428c0d030e04682cfce4c67c).
+2025-10-09 11:55:17,561:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 11:55:17,561:INFO:discord.client: logging in using static token
+2025-10-09 11:55:17,991:INFO:root: Database pool created.
+2025-10-09 11:55:18,080:INFO:root: Database initialized successfully.
+2025-10-09 11:55:19,433:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 11:55:20,152:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: f367157e8db44e695f69fdc7c5270e8a).
+2025-10-09 11:55:40,527:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 11:55:40,528:INFO:discord.client: logging in using static token
+2025-10-09 11:55:41,018:INFO:root: Database pool created.
+2025-10-09 11:55:41,039:INFO:root: Database initialized successfully.
+2025-10-09 11:55:42,209:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 11:56:20,021:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 69b9887824b7352660195e910bf9f695).
+2025-10-09 11:58:10,742:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 11:58:10,756:INFO:discord.client: logging in using static token
+2025-10-09 11:58:11,183:INFO:root: Database pool created.
+2025-10-09 11:58:11,215:INFO:root: Database initialized successfully.
+2025-10-09 11:58:12,746:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 11:58:13,448:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: f1be2d77285b23f1e707c251d9a1504a).
+2025-10-09 11:59:12,097:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 11:59:12,098:INFO:discord.client: logging in using static token
+2025-10-09 11:59:12,554:INFO:root: Database pool created.
+2025-10-09 11:59:12,577:INFO:root: Database initialized successfully.
+2025-10-09 11:59:13,716:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 11:59:14,670:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: d975046587c4724606d18a62bbc819b9).
+2025-10-09 12:00:27,626:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 12:00:27,628:INFO:discord.client: logging in using static token
+2025-10-09 12:00:28,306:INFO:root: Database pool created.
+2025-10-09 12:00:28,331:INFO:root: Database initialized successfully.
+2025-10-09 12:00:29,604:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 12:00:30,952:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 009bd66079a62fb5bda5205a8039a561).
+2025-10-09 12:17:36,433:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 12:17:36,434:INFO:discord.client: logging in using static token
+2025-10-09 12:17:36,859:INFO:root: Database pool created.
+2025-10-09 12:17:36,877:INFO:root: Database initialized successfully.
+2025-10-09 12:17:38,286:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 12:17:38,992:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 8a09a32ae813bddedcaa9713393fce2b).
+2025-10-09 12:18:01,844:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 12:18:01,845:INFO:discord.client: logging in using static token
+2025-10-09 12:18:02,319:INFO:root: Database pool created.
+2025-10-09 12:18:02,347:INFO:root: Database initialized successfully.
+2025-10-09 12:18:03,818:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 12:21:14,523:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 12:21:14,524:INFO:discord.client: logging in using static token
+2025-10-09 12:21:15,050:INFO:root: Database pool created.
+2025-10-09 12:21:15,088:INFO:root: Database initialized successfully.
+2025-10-09 12:21:16,338:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 12:21:17,209:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 312c886b26f0a4c9df47f6e661839c01).
+2025-10-09 12:44:56,174:ERROR:discord.app_commands.tree: Ignoring exception in command 'setup-post-live-metrics'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/cogs/admin_cog.py", line 278, in setup_post_live_metrics
+    await interaction.response.send_message(embed=embed, ephemeral=True)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 1051, in send_message
+    response = await adapter.create_interaction_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 224, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1297, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'setup-post-live-metrics' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-10-09 12:49:19,302:INFO:httpx: HTTP Request: GET https://www.tiktok.com/@timjeffmusic/live? "HTTP/1.1 200 OK"
+2025-10-09 12:49:19,551:INFO:httpx: HTTP Request: GET https://webcast.tiktok.com/webcast/room/check_alive/?aid=1988&app_language=en&app_name=tiktok_web&browser_language=en-AU&browser_name=Mozilla&browser_online=true&browser_platform=MacIntel&browser_version=5.0%20%28Macintosh%3B%20Intel%20Mac%20OS%20X%2014_7%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%2F129.0.0.0%20Safari%2F537.36%20OPR%2F113.0.0.0&cookie_enabled=true&device_platform=web_pc&focus_state=true&from_page=&history_len=10&is_fullscreen=false&is_page_visible=true&screen_height=1080&screen_width=1920&tz_name=Australia/Sydney&channel=tiktok_web&data_collection_enabled=true&os=mac&priority_region=AU&region=AU&user_is_login=false&webcast_language=en&msToken=&referer=https://www.tiktok.com/@@timjeffmusic/live&root_referer=https://www.tiktok.com/@@timjeffmusic/live&device_id=49571382755406379943&room_id=7559061279584176909&room_ids=7559061279584176909 "HTTP/1.1 200 OK"
+2025-10-09 12:49:20,559:INFO:httpx: HTTP Request: GET https://tiktok.eulerstream.com/webcast/fetch/?client=ttlive-python&room_id=7559061279584176909&user_agent=Mozilla%2F5.0+%28Macintosh%3B+Intel+Mac+OS+X+14_7%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Chrome%2F129.0.0.0+Safari%2F537.36+OPR%2F113.0.0.0&platform=web&client_enter=true "HTTP/1.1 200 OK"
+2025-10-09 12:49:21,533:INFO:root: TIKTOK: Connected to room ID 7559061279584176909
+2025-10-09 12:49:21,729:INFO:root: TIKTOK: Started live session with ID 1
+2025-10-09 13:04:20,404:ERROR:discord.app_commands.tree: Ignoring exception in command 'status'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/cogs/tiktok_cog.py", line 214, in status
+    await interaction.response.send_message(embed=embed, ephemeral=True)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 1051, in send_message
+    response = await adapter.create_interaction_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 226, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 40060): Interaction has already been acknowledged.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1297, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'status' raised an exception: HTTPException: 400 Bad Request (error code: 40060): Interaction has already been acknowledged.
+2025-10-09 13:04:30,645:INFO:root: TIKTOK: Disconnected from stream. Cleaning up...
+2025-10-09 13:04:30,863:INFO:root: TIKTOK: Internal connection state has been reset.
+2025-10-09 13:04:46,965:INFO:httpx: HTTP Request: GET https://www.tiktok.com/@timjeffmusic/live? "HTTP/1.1 200 OK"
+2025-10-09 13:04:47,404:INFO:httpx: HTTP Request: GET https://webcast.tiktok.com/webcast/room/check_alive/?aid=1988&app_language=en&app_name=tiktok_web&browser_language=en-AU&browser_name=Mozilla&browser_online=true&browser_platform=MacIntel&browser_version=5.0%20%28Macintosh%3B%20Intel%20Mac%20OS%20X%2014_7%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%2F129.0.0.0%20Safari%2F537.36%20OPR%2F113.0.0.0&cookie_enabled=true&device_platform=web_pc&focus_state=true&from_page=&history_len=10&is_fullscreen=false&is_page_visible=true&screen_height=1080&screen_width=1920&tz_name=Australia/Sydney&channel=tiktok_web&data_collection_enabled=true&os=mac&priority_region=AU&region=AU&user_is_login=false&webcast_language=en&msToken=&referer=https://www.tiktok.com/@@timjeffmusic/live&root_referer=https://www.tiktok.com/@@timjeffmusic/live&device_id=56145982151398777053&room_id=7559061279584176909&room_ids=7559061279584176909 "HTTP/1.1 200 OK"
+2025-10-09 13:04:48,505:INFO:httpx: HTTP Request: GET https://tiktok.eulerstream.com/webcast/fetch/?client=ttlive-python&room_id=7559061279584176909&user_agent=Mozilla%2F5.0+%28Macintosh%3B+Intel+Mac+OS+X+14_7%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Chrome%2F129.0.0.0+Safari%2F537.36+OPR%2F113.0.0.0&platform=web&client_enter=true "HTTP/1.1 200 OK"
+2025-10-09 13:04:49,280:INFO:root: TIKTOK: Connected to room ID 7559061279584176909
+2025-10-09 13:04:49,288:INFO:root: TIKTOK: Started live session with ID 2
+2025-10-09 13:05:05,615:ERROR:discord.app_commands.tree: Ignoring exception in command 'status'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/cogs/tiktok_cog.py", line 214, in status
+    await interaction.response.send_message(embed=embed, ephemeral=True)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 1051, in send_message
+    response = await adapter.create_interaction_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 224, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1297, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'status' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-10-09 13:14:13,570:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 13:14:13,570:INFO:discord.client: logging in using static token
+2025-10-09 13:14:13,972:INFO:root: Database pool created.
+2025-10-09 13:14:13,988:INFO:root: Database initialized successfully.
+2025-10-09 13:14:15,185:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 13:14:15,936:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 1345e6c9866529730d71ff31ea4454c3).
+2025-10-09 13:17:41,788:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 13:17:41,788:INFO:discord.client: logging in using static token
+2025-10-09 13:17:42,348:INFO:root: Database pool created.
+2025-10-09 13:17:42,365:INFO:root: Database initialized successfully.
+2025-10-09 13:17:43,602:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 13:17:44,363:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 1d582fc60589f984396638558afa1280).
+2025-10-09 13:31:05,608:INFO:httpx: HTTP Request: GET https://www.tiktok.com/@timjeffmusic/live? "HTTP/1.1 200 OK"
+2025-10-09 13:31:06,094:INFO:httpx: HTTP Request: GET https://webcast.tiktok.com/webcast/room/check_alive/?aid=1988&app_language=en&app_name=tiktok_web&browser_language=en-BZ&browser_name=Mozilla&browser_online=true&browser_platform=MacIntel&browser_version=5.0%20%28Macintosh%3B%20Intel%20Mac%20OS%20X%2010_15_7%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%2F129.0.0.0%20Safari%2F537.36%20Edg%2F128.0.2739.79&cookie_enabled=true&device_platform=web_pc&focus_state=true&from_page=&history_len=9&is_fullscreen=false&is_page_visible=true&screen_height=4320&screen_width=7680&tz_name=America/Belize&channel=tiktok_web&data_collection_enabled=true&os=mac&priority_region=BZ&region=BZ&user_is_login=false&webcast_language=en&msToken=&referer=https://www.tiktok.com/@@timjeffmusic/live&root_referer=https://www.tiktok.com/@@timjeffmusic/live&device_id=87729997196657966177&room_id=7559061279584176909&room_ids=7559061279584176909 "HTTP/1.1 200 OK"
+2025-10-09 13:31:08,227:INFO:httpx: HTTP Request: GET https://tiktok.eulerstream.com/webcast/fetch/?client=ttlive-python&room_id=7559061279584176909&user_agent=Mozilla%2F5.0+%28Macintosh%3B+Intel+Mac+OS+X+10_15_7%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Chrome%2F129.0.0.0+Safari%2F537.36+Edg%2F128.0.2739.79&platform=web&client_enter=true "HTTP/1.1 200 OK"
+2025-10-09 13:31:09,148:INFO:root: TIKTOK: Connected to room ID 7559061279584176909
+2025-10-09 13:31:09,356:INFO:root: TIKTOK: Started live session with ID 3
+2025-10-09 13:31:52,486:INFO:root: TIKTOK: User-initiated disconnect from stream. Cleaning up...
+2025-10-09 13:31:52,730:INFO:root: TIKTOK: Internal connection state has been reset.
+2025-10-09 13:32:40,517:INFO:httpx: HTTP Request: GET https://www.tiktok.com/@timjeffmusic/live? "HTTP/1.1 200 OK"
+2025-10-09 13:32:40,801:INFO:httpx: HTTP Request: GET https://webcast.tiktok.com/webcast/room/check_alive/?aid=1988&app_language=en&app_name=tiktok_web&browser_language=en-BZ&browser_name=Mozilla&browser_online=true&browser_platform=MacIntel&browser_version=5.0%20%28Macintosh%3B%20Intel%20Mac%20OS%20X%2010_15_7%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%2F129.0.0.0%20Safari%2F537.36%20Edg%2F128.0.2739.79&cookie_enabled=true&device_platform=web_pc&focus_state=true&from_page=&history_len=9&is_fullscreen=false&is_page_visible=true&screen_height=4320&screen_width=7680&tz_name=America/Belize&channel=tiktok_web&data_collection_enabled=true&os=mac&priority_region=BZ&region=BZ&user_is_login=false&webcast_language=en&msToken=&referer=https://www.tiktok.com/@@timjeffmusic/live&root_referer=https://www.tiktok.com/@@timjeffmusic/live&device_id=77368307335540818607&room_id=7559061279584176909&room_ids=7559061279584176909 "HTTP/1.1 200 OK"
+2025-10-09 13:32:41,873:INFO:httpx: HTTP Request: GET https://tiktok.eulerstream.com/webcast/fetch/?client=ttlive-python&room_id=7559061279584176909&user_agent=Mozilla%2F5.0+%28Macintosh%3B+Intel+Mac+OS+X+10_15_7%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Chrome%2F129.0.0.0+Safari%2F537.36+Edg%2F128.0.2739.79&platform=web&client_enter=true "HTTP/1.1 200 OK"
+2025-10-09 13:32:42,600:INFO:root: TIKTOK: Connected to room ID 7559061279584176909
+2025-10-09 13:32:42,740:INFO:root: TIKTOK: Started live session with ID 4
+2025-10-09 13:34:13,147:INFO:root: TIKTOK: User-initiated disconnect from stream. Cleaning up...
+2025-10-09 13:34:13,379:INFO:root: TIKTOK: Internal connection state has been reset.
+2025-10-09 13:41:30,187:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 13:41:30,188:INFO:discord.client: logging in using static token
+2025-10-09 13:41:30,668:INFO:root: Database pool created.
+2025-10-09 13:41:30,682:INFO:root: Database initialized successfully.
+2025-10-09 13:41:31,878:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 13:41:32,533:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: fe99b4c11b93bc78b2c9afd3a86a781d).
+2025-10-09 13:42:37,535:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 13:42:37,536:INFO:discord.client: logging in using static token
+2025-10-09 13:42:38,061:INFO:root: Database pool created.
+2025-10-09 13:42:38,088:INFO:root: Database initialized successfully.
+2025-10-09 13:42:39,340:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 13:42:40,003:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: ae9d046ce0228a97c3bbbc123ac130a1).
+2025-10-09 13:47:26,943:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 13:47:26,943:INFO:discord.client: logging in using static token
+2025-10-09 13:47:27,370:INFO:root: Database pool created.
+2025-10-09 13:47:27,392:INFO:root: Database initialized successfully.
+2025-10-09 13:47:28,937:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 13:47:29,802:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: fed1b826b091add8323c39793070ea2c).
+2025-10-09 14:35:43,598:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 14:35:43,603:INFO:discord.client: logging in using static token
+2025-10-09 14:35:44,229:INFO:root: Database pool created.
+2025-10-09 14:35:44,245:INFO:root: Database initialized successfully.
+2025-10-09 14:35:45,621:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 14:35:45,635:INFO:root: SelfHealingCog loaded. Starting auto-healing sequence...
+2025-10-09 14:35:45,635:INFO:root: 🏥 Starting auto-healing sequence...
+2025-10-09 14:35:48,640:INFO:root: ✅ Auto-healing sequence completed successfully.
+2025-10-09 14:35:49,477:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: dc2f6071ee51d55c1cf215fdaf23e299).
+2025-10-09 14:40:56,991:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 14:40:56,993:INFO:discord.client: logging in using static token
+2025-10-09 14:40:57,531:INFO:root: Database pool created.
+2025-10-09 14:40:57,548:INFO:root: Database initialized successfully.
+2025-10-09 14:40:58,755:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 14:40:58,765:INFO:root: SelfHealingCog loaded.
+2025-10-09 14:40:59,307:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 604de783f8254a1bcd0d695e0b2dff9d).
+2025-10-09 14:41:01,325:INFO:root: SelfHealingCog ready. Starting auto-healing sequence...
+2025-10-09 14:41:01,325:INFO:root: 🏥 Starting auto-healing sequence...
+2025-10-09 14:41:04,327:INFO:root: ✅ Auto-healing sequence completed successfully.
+2025-10-09 14:41:54,034:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 14:41:54,039:INFO:discord.client: logging in using static token
+2025-10-09 14:41:54,587:INFO:root: Database pool created.
+2025-10-09 14:41:54,603:INFO:root: Database initialized successfully.
+2025-10-09 14:41:56,010:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 14:41:56,032:INFO:root: SelfHealingCog loaded.
+2025-10-09 14:41:58,318:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 55702ffe0e49c59dbda472b08ca185e0).
+2025-10-09 14:42:00,328:INFO:root: SelfHealingCog ready. Starting auto-healing sequence...
+2025-10-09 14:42:00,328:INFO:root: 🏥 Starting auto-healing sequence...
+2025-10-09 14:42:03,330:INFO:root: ✅ Auto-healing sequence completed successfully.
+2025-10-09 15:19:08,390:INFO:root: 🔧 Healing Metrics Channel (#tiktok-session-metrics)...
+2025-10-09 15:19:08,570:INFO:root: ✅ Metrics Channel: Cleaned 0 messages, reconnected 0 views
+2025-10-09 15:19:31,910:ERROR:discord.app_commands.tree: Ignoring exception in command 'setup-reviewer-channel'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/cogs/reviewer_cog.py", line 216, in setup_reviewer_channel
+    await interaction.response.defer(ephemeral=True)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 858, in defer
+    response = await adapter.create_interaction_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 224, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1297, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'setup-reviewer-channel' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-10-09 15:20:07,424:ERROR:discord.app_commands.tree: Ignoring exception in command 'setup-live-queue'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/cogs/live_queue_cog.py", line 130, in setup_live_queue
+    await interaction.response.defer(ephemeral=True)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 858, in defer
+    response = await adapter.create_interaction_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 224, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1297, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'setup-live-queue' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-10-09 15:20:30,302:ERROR:discord.app_commands.tree: Ignoring exception in command 'setbookmarkchannel'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/cogs/admin_cog.py", line 259, in set_bookmark_channel
+    await interaction.response.defer(ephemeral=True)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 858, in defer
+    response = await adapter.create_interaction_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 224, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1297, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'setbookmarkchannel' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-10-09 15:21:13,064:ERROR:discord.app_commands.tree: Ignoring exception in command 'setup-post-live-metrics'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/cogs/admin_cog.py", line 277, in setup_post_live_metrics
+    await interaction.response.defer(ephemeral=True)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 858, in defer
+    response = await adapter.create_interaction_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 224, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1297, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'setup-post-live-metrics' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-10-09 15:21:28,455:ERROR:discord.app_commands.tree: Ignoring exception in command 'show-settings'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/cogs/admin_cog.py", line 107, in show_settings
+    await interaction.response.defer(ephemeral=True)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 858, in defer
+    response = await adapter.create_interaction_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 224, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1297, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'show-settings' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-10-09 15:21:45,463:ERROR:discord.app_commands.tree: Ignoring exception in command 'show-settings'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/cogs/admin_cog.py", line 107, in show_settings
+    await interaction.response.defer(ephemeral=True)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 858, in defer
+    response = await adapter.create_interaction_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 224, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1297, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'show-settings' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-10-09 15:24:37,344:ERROR:discord.app_commands.tree: Ignoring exception in autocomplete for 'link-tiktok'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1289, in _call
+    await command._invoke_autocomplete(interaction, focused, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 928, in _invoke_autocomplete
+    await interaction.response.autocomplete(choices)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 1332, in autocomplete
+    await adapter.create_interaction_response(
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 226, in request
+    raise HTTPException(response, data)
+discord.errors.HTTPException: 400 Bad Request (error code: 40060): Interaction has already been acknowledged.
+2025-10-09 15:48:36,597:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 15:48:36,598:INFO:discord.client: logging in using static token
+2025-10-09 15:48:37,200:INFO:root: Database pool created.
+2025-10-09 15:48:37,321:INFO:root: Database initialized successfully.
+2025-10-09 15:48:39,378:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 15:48:39,415:INFO:root: SelfHealingCog loaded.
+2025-10-09 15:48:40,140:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: fc8b121aa93fbd64a20b27cb86a27ae4).
+2025-10-09 15:48:42,151:INFO:root: SelfHealingCog ready. Starting auto-healing sequence...
+2025-10-09 15:48:42,151:INFO:root: 🏥 Starting auto-healing sequence...
+2025-10-09 15:48:42,164:INFO:root: Points backup completed: 0 users, 0 TikTok handles
+2025-10-09 15:48:45,154:INFO:root: ✅ Auto-healing sequence completed successfully.
+2025-10-09 16:06:16,978:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-09 16:06:16,984:INFO:discord.client: logging in using static token
+2025-10-09 16:06:17,472:INFO:root: Database pool created.
+2025-10-09 16:06:17,509:INFO:root: Database initialized successfully.
+2025-10-09 16:06:19,076:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-09 16:06:19,090:INFO:root: SelfHealingCog loaded.
+2025-10-09 16:06:19,839:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 906e7c4bebabc41cee6050f63c68b2c7).
+2025-10-09 16:06:21,851:INFO:root: SelfHealingCog ready. Starting auto-healing sequence...
+2025-10-09 16:06:21,853:INFO:root: 🏥 Starting auto-healing sequence...
+2025-10-09 16:06:21,860:INFO:root: Points backup completed: 0 users, 0 TikTok handles
+2025-10-09 16:06:24,854:INFO:root: ✅ Re-registered LiveQueueCog views
+2025-10-09 16:06:24,855:INFO:root: ✅ Re-registered ReviewerCog views
+2025-10-09 16:06:24,855:INFO:root: ✅ Re-registered SubmissionCog views
+2025-10-09 16:06:24,855:INFO:root: ✅ Auto-healing sequence completed successfully (views re-registered).
