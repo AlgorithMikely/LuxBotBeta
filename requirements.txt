@@ -1,6 +1,12 @@
-discord.py>=2.3.2
+discord.py>=2.3.0
+asyncpg>=0.29.0
+TikTokLive>=5.0.0
 python-dotenv>=1.0.0
-TikTokLive>=2.2.1
-asyncpg>=0.27.0
-psycopg2-binary>=2.9.6
-aiosqlite
+aiofiles>=23.2.1
+validators>=0.22.0
+aiofiles
+asyncpg
+discord.py
+python-dotenv
+TikTokLive
+validators

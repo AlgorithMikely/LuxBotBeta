@@ -1,0 +1,45 @@
+Of course. A great prompt provides context, shows the error, and asks a clear question about potential causes. Here is a prompt crafted for the Replit assistant based on your situation.
+
+You can copy and paste this directly into your conversation with the Replit assistant.
+
+-----
+
+### Title: Debugging Logic Error: Completed Live Session Not Found Despite Logs
+
+**My Goal:**
+I have a process where a "live session" is marked as `completed` in my database. Immediately following this update, another function is triggered to find any sessions with the `completed` status so it can post live metrics for them.
+
+**The Problem:**
+My logs clearly show that the session's status is being successfully updated to `completed`. However, when the next function runs to query for completed sessions, it fails, returning the error "no completed live sessions found."
+
+**Expected Behavior:**
+The query should find the session that was just marked as `completed` and proceed to post the metrics.
+
+**Actual Behavior:**
+The query finds nothing, indicating a potential timing issue, a problem with my query logic, or a database transaction delay.
+
+**Relevant Logs (Chronological Order):**
+
+```log
+// Log entry from the function that ends the session
+INFO: Updating session with ID 'xyz-123-abc' to status 'completed'.
+
+// Log entry confirming the database write
+INFO: Database update successful for session 'xyz-123-abc'.
+
+// Log entry from the function that posts metrics
+INFO: Searching for completed live sessions to post metrics...
+
+// The error
+ERROR: No completed live sessions found.
+```
+
+**My Question:**
+
+Given this scenario, what are the most likely causes for this discrepancy? Please consider the following possibilities and suggest solutions:
+
+1.  **Race Condition/Timing Issue:** Could the search query be executing before the database transaction from the `UPDATE` operation is fully committed and visible to other connections? If so, how can I ensure the update is complete before I query?
+2.  **Query Logic Error:** Is it possible there's a subtle bug in my `SELECT` query that's causing it to incorrectly filter out the session? For example, am I also filtering by a timestamp that is too restrictive?
+3.  **Caching:** Could a caching layer be returning a stale result, preventing the function from seeing the updated session status?
+
+Could you provide some example code snippets (e.g., using Node.js with `async/await`) that demonstrate a robust way to handle this "update-then-find" pattern to avoid this kind of error?

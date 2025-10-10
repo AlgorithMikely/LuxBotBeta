@@ -1,0 +1,105 @@
+New Behavior to Implement
+
+The bot must automatically delete any messages in the Submissions or Queue channels that are not posted by a moderator, admin, or the bot itself.
+
+
+The check must trigger on message creation events (on_message).
+
+
+Admins and moderators are identified by Discord’s built-in permissions:
+
+Users with Administrator or Manage Messages permission are exempt.
+
+Messages from the bot itself are also exempt.
+
+
+
+The cleanup must run silently (no error or warning messages).
+
+
+It must never delete command invocations (slash commands are handled separately and must be ignored).
+
+
+The target channel IDs (Submissions and Queue) should come from the bot’s configuration (existing bot_config table or .env variables if preferred).
+
+
+
+
+---
+
+⚙️ Implementation Details
+
+Add a new Cog called auto_cleanup_cog.py (or extend an existing moderation cog if one exists).
+
+Register an event listener:
+
+@commands.Cog.listener()
+async def on_message(self, message: discord.Message):
+    # Ignore bot and system messages
+    if message.author.bot:
+        return
+
+    # Load allowed channels from config or cache
+    allowed_channels = {
+        config['submission_channel_id'],
+        config['queue_channel_id']
+    }
+
+    # Ignore messages outside the monitored channels
+    if message.channel.id not in allowed_channels:
+        return
+
+    # Skip messages from admins or mods
+    perms = message.author.guild_permissions
+    if perms.administrator or perms.manage_messages:
+        return
+
+    # Delete unauthorized message silently
+    try:
+        await message.delete()
+    except discord.Forbidden:
+        # Missing permissions
+        pass
+    except discord.HTTPException:
+        # Already deleted or network issue
+        pass
+
+The Cog should load on startup:
+
+async def setup(bot):
+    await bot.add_cog(AutoCleanupCog(bot))
+
+
+
+---
+
+🧱 Configuration
+
+Add or confirm the following entries in your bot_config table or environment:
+
+submission_channel_id
+
+queue_channel_id
+
+
+If the bot already stores these channel IDs elsewhere (e.g., queue_config table), use those.
+
+
+---
+
+🧪 Testing Criteria
+
+Regular users sending messages in those channels → message deleted instantly.
+
+Admins and mods → messages stay.
+
+Bot posts (embeds, system updates, queue updates) → stay.
+
+Other channels unaffected.
+
+
+
+---
+
+Goal:
+Modify the bot to silently maintain clean Submissions and Queue channels by automatically removing all messages not sent by moderators, admins, or the bot itself.
