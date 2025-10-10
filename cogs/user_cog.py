@@ -135,6 +135,41 @@ class UserCog(commands.Cog):
             logging.error(f"Error resetting points by admin {interaction.user.id}: {e}", exc_info=True)
             await interaction.followup.send("An error occurred while resetting points.", ephemeral=True)
 
+    @app_commands.command(name="my-stats", description="View your lifetime TikTok engagement stats.")
+    async def my_stats(self, interaction: discord.Interaction):
+        """Displays the user's lifetime TikTok engagement statistics."""
+        await interaction.response.defer(ephemeral=True)
+        try:
+            handles = await self.bot.db.get_linked_tiktok_handles(interaction.user.id)
+            if not handles:
+                embed = discord.Embed(
+                    title="No TikTok Accounts Linked",
+                    description="You have no TikTok accounts linked. Use the `/link-tiktok` command to link one and start tracking your stats.",
+                    color=discord.Color.blue()
+                )
+                await interaction.followup.send(embed=embed, ephemeral=True)
+                return
+
+            stats = await self.bot.db.get_user_lifetime_stats(interaction.user.id)
+
+            embed = discord.Embed(
+                title=f"{interaction.user.display_name}'s Lifetime Stats",
+                description="This is a summary of your engagement across all linked TikTok accounts.",
+                color=discord.Color.purple()
+            )
+            embed.add_field(name="❤️ Likes", value=f"{stats.get('like', 0):,}", inline=True)
+            embed.add_field(name="💬 Comments", value=f"{stats.get('comment', 0):,}", inline=True)
+            embed.add_field(name="🔗 Shares", value=f"{stats.get('share', 0):,}", inline=True)
+            embed.add_field(name="💎 Gift Coins", value=f"{stats.get('gift_coins', 0):,}", inline=True)
+
+            embed.set_footer(text="Stats contributed by: " + ", ".join(f"`{h}`" for h in handles))
+
+            await interaction.followup.send(embed=embed, ephemeral=True)
+
+        except Exception as e:
+            logging.error(f"Error fetching stats for user {interaction.user.id}: {e}", exc_info=True)
+            await interaction.followup.send("An unexpected error occurred while fetching your stats.", ephemeral=True)
+
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(UserCog(bot))
