@@ -2043,3 +2043,325 @@ discord.app_commands.errors.CommandInvokeError: Command 'next' raised an excepti
 2025-10-09 20:23:30,907:INFO:root: ✅ Re-registered ReviewerCog views
 2025-10-09 20:23:30,908:INFO:root: ✅ Re-registered SubmissionCog views
 2025-10-09 20:23:30,908:INFO:root: ✅ Auto-healing sequence completed successfully (views re-registered).
+2025-10-09 20:27:45,271:ERROR:discord.app_commands.tree: Ignoring exception in command 'setup-reviewer-channel'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/cogs/reviewer_cog.py", line 234, in setup_reviewer_channel
+    await interaction.response.defer(ephemeral=True)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 858, in defer
+    response = await adapter.create_interaction_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 224, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1297, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'setup-reviewer-channel' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-10-09 20:27:55,897:ERROR:discord.app_commands.tree: Ignoring exception in command 'setup-live-queue'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/cogs/live_queue_cog.py", line 139, in setup_live_queue
+    await interaction.response.defer(ephemeral=True)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 858, in defer
+    response = await adapter.create_interaction_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 224, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1297, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'setup-live-queue' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-10-09 20:28:22,851:ERROR:discord.app_commands.tree: Ignoring exception in command 'setup-post-live-metrics'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/cogs/admin_cog.py", line 290, in setup_post_live_metrics
+    await interaction.response.defer(ephemeral=True)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 858, in defer
+    response = await adapter.create_interaction_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 224, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1297, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'setup-post-live-metrics' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-10-09 20:28:31,519:ERROR:discord.app_commands.tree: Ignoring exception in command 'connect'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/cogs/tiktok_cog.py", line 96, in connect
+    await interaction.response.defer(ephemeral=True)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 858, in defer
+    response = await adapter.create_interaction_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 224, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1297, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'connect' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-10-09 20:29:17,929:INFO:root: LiveQueueCog received queue_update event. Refreshing display.
+2025-10-09 20:29:17,930:INFO:root: ReviewerCog received queue_update event. Refreshing displays.
+2025-10-09 20:30:02,417:ERROR:discord.app_commands.tree: Ignoring exception in command 'setup-reviewer-channel'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/cogs/reviewer_cog.py", line 234, in setup_reviewer_channel
+    await interaction.response.defer(ephemeral=True)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 858, in defer
+    response = await adapter.create_interaction_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 224, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1297, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'setup-reviewer-channel' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-10-09 20:30:18,312:ERROR:discord.app_commands.tree: Ignoring exception in command 'remove'
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 858, in _do_call
+    return await self._callback(self.binding, interaction, **params)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/cogs/admin_cog.py", line 157, in remove_submission
+    await interaction.response.defer(ephemeral=True)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/interactions.py", line 858, in defer
+    response = await adapter.create_interaction_response(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/webhook/async_.py", line 224, in request
+    raise NotFound(response, data)
+discord.errors.NotFound: 404 Not Found (error code: 10062): Unknown interaction
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/tree.py", line 1297, in _call
+    await command._invoke_with_namespace(interaction, namespace)
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 884, in _invoke_with_namespace
+    return await self._do_call(interaction, transformed_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.12/site-packages/discord/app_commands/commands.py", line 877, in _do_call
+    raise CommandInvokeError(self, e) from e
+discord.app_commands.errors.CommandInvokeError: Command 'remove' raised an exception: NotFound: 404 Not Found (error code: 10062): Unknown interaction
+2025-10-10 00:02:52,017:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-10 00:02:52,017:INFO:discord.client: logging in using static token
+2025-10-10 00:02:53,800:INFO:root: Database pool created.
+2025-10-10 00:02:53,927:INFO:root: Database initialized successfully.
+2025-10-10 00:02:53,935:INFO:root: PassiveSubmissionCog loaded successfully.
+2025-10-10 00:02:55,058:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-10 00:02:55,179:INFO:root: SelfHealingCog loaded.
+2025-10-10 00:02:55,184:INFO:root: EmbedRefreshCog loaded. Starting auto-refresh loop...
+2025-10-10 00:02:57,832:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 0b55bd50b5b7b079ce6200f59a46462b).
+2025-10-10 00:02:59,837:INFO:root: ✅ Auto-refresh loop ready to start.
+2025-10-10 00:02:59,838:INFO:root: SelfHealingCog ready. Starting auto-healing sequence...
+2025-10-10 00:02:59,838:INFO:root: 🏥 Starting auto-healing sequence...
+2025-10-10 00:02:59,874:INFO:root: Points backup completed: 1 users, 0 TikTok handles
+2025-10-10 00:03:03,051:ERROR:root: ❌ Live Queue Channel: Missing permissions to access channel
+2025-10-10 00:03:03,207:ERROR:root: ❌ Metrics Channel: Missing permissions to access channel
+2025-10-10 00:03:03,207:INFO:root: ✅ Re-registered LiveQueueCog views
+2025-10-10 00:03:03,208:INFO:root: ✅ Re-registered ReviewerCog views
+2025-10-10 00:03:03,208:INFO:root: ✅ Re-registered SubmissionCog views
+2025-10-10 00:03:03,208:INFO:root: ✅ Auto-healing sequence completed successfully (views re-registered).
+2025-10-10 00:08:52,398:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-10 00:08:52,398:INFO:discord.client: logging in using static token
+2025-10-10 00:08:52,879:INFO:root: Database pool created.
+2025-10-10 00:08:52,895:INFO:root: Database initialized successfully.
+2025-10-10 00:08:52,902:INFO:root: PassiveSubmissionCog loaded successfully.
+2025-10-10 00:08:53,851:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-10 00:08:53,856:INFO:root: SelfHealingCog loaded.
+2025-10-10 00:08:53,857:INFO:root: EmbedRefreshCog loaded. Starting auto-refresh loop...
+2025-10-10 00:08:54,584:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: ece8137c2b59cdee1d8a694a54a7e82e).
+2025-10-10 00:08:56,587:INFO:root: ✅ Auto-refresh loop ready to start.
+2025-10-10 00:08:56,588:INFO:root: SelfHealingCog ready. Starting auto-healing sequence...
+2025-10-10 00:08:56,588:INFO:root: 🏥 Starting auto-healing sequence...
+2025-10-10 00:08:56,595:INFO:root: Points backup completed: 1 users, 0 TikTok handles
+2025-10-10 00:08:59,760:ERROR:root: ❌ Live Queue Channel: Missing permissions to access channel
+2025-10-10 00:08:59,959:ERROR:root: ❌ Metrics Channel: Missing permissions to access channel
+2025-10-10 00:08:59,959:INFO:root: ✅ Re-registered LiveQueueCog views
+2025-10-10 00:08:59,960:INFO:root: ✅ Re-registered ReviewerCog views
+2025-10-10 00:08:59,960:INFO:root: ✅ Re-registered SubmissionCog views
+2025-10-10 00:08:59,960:INFO:root: ✅ Auto-healing sequence completed successfully (views re-registered).
+2025-10-10 00:09:56,158:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-10 00:09:56,158:INFO:discord.client: logging in using static token
+2025-10-10 00:09:57,323:INFO:root: Database pool created.
+2025-10-10 00:09:57,339:INFO:root: Database initialized successfully.
+2025-10-10 00:09:57,350:INFO:root: PassiveSubmissionCog loaded successfully.
+2025-10-10 00:09:58,271:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-10 00:09:58,277:INFO:root: SelfHealingCog loaded.
+2025-10-10 00:09:58,278:INFO:root: EmbedRefreshCog loaded. Starting auto-refresh loop...
+2025-10-10 00:09:58,941:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: a6a7e88c12576cd0baf992160c6dc500).
+2025-10-10 00:10:00,943:INFO:root: ✅ Auto-refresh loop ready to start.
+2025-10-10 00:10:00,944:INFO:root: SelfHealingCog ready. Starting auto-healing sequence...
+2025-10-10 00:10:00,944:INFO:root: 🏥 Starting auto-healing sequence...
+2025-10-10 00:10:00,949:INFO:root: Points backup completed: 1 users, 0 TikTok handles
+2025-10-10 00:10:04,094:ERROR:root: ❌ Live Queue Channel: Missing permissions to access channel
+2025-10-10 00:10:04,283:ERROR:root: ❌ Metrics Channel: Missing permissions to access channel
+2025-10-10 00:10:04,283:INFO:root: ✅ Re-registered LiveQueueCog views
+2025-10-10 00:10:04,284:INFO:root: ✅ Re-registered ReviewerCog views
+2025-10-10 00:10:04,284:INFO:root: ✅ Re-registered SubmissionCog views
+2025-10-10 00:10:04,284:INFO:root: ✅ Auto-healing sequence completed successfully (views re-registered).
+2025-10-10 00:10:57,341:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-10 00:10:57,341:INFO:discord.client: logging in using static token
+2025-10-10 00:10:57,816:INFO:root: Database pool created.
+2025-10-10 00:10:57,827:INFO:root: Database initialized successfully.
+2025-10-10 00:10:57,833:INFO:root: PassiveSubmissionCog loaded successfully.
+2025-10-10 00:10:58,743:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-10 00:10:58,747:INFO:root: SelfHealingCog loaded.
+2025-10-10 00:10:58,748:INFO:root: EmbedRefreshCog loaded. Starting auto-refresh loop...
+2025-10-10 00:10:59,396:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 9e142d9083d9acd18a4540ceab8d65f2).
+2025-10-10 00:11:01,398:INFO:root: ✅ Auto-refresh loop ready to start.
+2025-10-10 00:11:01,399:INFO:root: SelfHealingCog ready. Starting auto-healing sequence...
+2025-10-10 00:11:01,399:INFO:root: 🏥 Starting auto-healing sequence...
+2025-10-10 00:11:01,404:INFO:root: Points backup completed: 1 users, 0 TikTok handles
+2025-10-10 00:11:04,722:ERROR:root: ❌ Live Queue Channel: Missing permissions to access channel
+2025-10-10 00:11:04,875:ERROR:root: ❌ Metrics Channel: Missing permissions to access channel
+2025-10-10 00:11:04,875:INFO:root: ✅ Re-registered LiveQueueCog views
+2025-10-10 00:11:04,875:INFO:root: ✅ Re-registered ReviewerCog views
+2025-10-10 00:11:04,876:INFO:root: ✅ Re-registered SubmissionCog views
+2025-10-10 00:11:04,876:INFO:root: ✅ Auto-healing sequence completed successfully (views re-registered).
+2025-10-10 01:11:01,408:INFO:root: Points backup completed: 1 users, 0 TikTok handles
+2025-10-10 01:14:49,725:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-10 01:14:49,726:INFO:discord.client: logging in using static token
+2025-10-10 01:14:50,186:INFO:root: Database pool created.
+2025-10-10 01:14:50,291:INFO:root: Database initialized successfully.
+2025-10-10 01:14:50,295:INFO:root: PassiveSubmissionCog loaded successfully.
+2025-10-10 01:14:51,385:INFO:root: SelfHealingCog loaded.
+2025-10-10 01:14:51,387:INFO:root: EmbedRefreshCog loaded. Starting auto-refresh loop...
+2025-10-10 01:14:52,209:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: b3432a9033153abfc6478423a3ab8189).
+2025-10-10 01:14:54,212:INFO:root: ✅ Auto-refresh loop ready to start.
+2025-10-10 01:14:54,213:INFO:root: SelfHealingCog ready. Starting auto-healing sequence...
+2025-10-10 01:14:54,214:INFO:root: 🏥 Starting auto-healing sequence...
+2025-10-10 01:14:57,354:ERROR:root: ❌ Live Queue Channel: Missing permissions to access channel
+2025-10-10 01:14:57,576:ERROR:root: ❌ Metrics Channel: Missing permissions to access channel
+2025-10-10 01:14:57,577:INFO:root: ✅ Re-registered LiveQueueCog views
+2025-10-10 01:14:57,577:INFO:root: ✅ Re-registered ReviewerCog views
+2025-10-10 01:14:57,577:INFO:root: ✅ Re-registered SubmissionCog views
+2025-10-10 01:14:57,577:INFO:root: ✅ Auto-healing sequence completed successfully (views re-registered).
+2025-10-10 01:31:10,126:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-10 01:31:10,126:INFO:discord.client: logging in using static token
+2025-10-10 01:31:10,722:INFO:root: Database pool created.
+2025-10-10 01:31:10,762:INFO:root: Database initialized successfully.
+2025-10-10 01:31:10,766:INFO:root: PassiveSubmissionCog loaded successfully.
+2025-10-10 01:31:11,820:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-10 01:31:11,827:INFO:root: SelfHealingCog loaded.
+2025-10-10 01:31:11,831:INFO:root: EmbedRefreshCog loaded. Starting auto-refresh loop...
+2025-10-10 01:31:12,443:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 8c91cdeaba76998cb04bc9b657efe883).
+2025-10-10 01:31:14,445:INFO:root: ✅ Auto-refresh loop ready to start.
+2025-10-10 01:31:14,446:INFO:root: SelfHealingCog ready. Starting auto-healing sequence...
+2025-10-10 01:31:14,446:INFO:root: 🏥 Starting auto-healing sequence...
+2025-10-10 01:31:14,452:INFO:root: Points backup completed: 1 users, 0 TikTok handles
+2025-10-10 01:31:17,618:ERROR:root: ❌ Live Queue Channel: Missing permissions to access channel
+2025-10-10 01:31:17,822:ERROR:root: ❌ Metrics Channel: Missing permissions to access channel
+2025-10-10 01:31:17,822:INFO:root: ✅ Re-registered LiveQueueCog views
+2025-10-10 01:31:17,823:INFO:root: ✅ Re-registered ReviewerCog views
+2025-10-10 01:31:17,823:INFO:root: ✅ Re-registered SubmissionCog views
+2025-10-10 01:31:17,823:INFO:root: ✅ Auto-healing sequence completed successfully (views re-registered).
+2025-10-10 01:33:08,320:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-10 01:33:08,320:INFO:discord.client: logging in using static token
+2025-10-10 01:33:08,742:INFO:root: Database pool created.
+2025-10-10 01:33:08,818:INFO:root: Database initialized successfully.
+2025-10-10 01:33:08,822:INFO:root: PassiveSubmissionCog loaded successfully.
+2025-10-10 01:33:09,812:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-10 01:33:09,817:INFO:root: SelfHealingCog loaded.
+2025-10-10 01:33:09,818:INFO:root: EmbedRefreshCog loaded. Starting auto-refresh loop...
+2025-10-10 01:33:10,423:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 315c72a7c47d7140874f350c9d08cd6c).
+2025-10-10 01:33:12,425:INFO:root: ✅ Auto-refresh loop ready to start.
+2025-10-10 01:33:12,426:INFO:root: SelfHealingCog ready. Starting auto-healing sequence...
+2025-10-10 01:33:12,426:INFO:root: 🏥 Starting auto-healing sequence...
+2025-10-10 01:33:12,430:INFO:root: Points backup completed: 1 users, 0 TikTok handles
+2025-10-10 01:33:15,592:ERROR:root: ❌ Live Queue Channel: Missing permissions to access channel
+2025-10-10 01:33:15,772:ERROR:root: ❌ Metrics Channel: Missing permissions to access channel
+2025-10-10 01:33:15,772:INFO:root: ✅ Re-registered LiveQueueCog views
+2025-10-10 01:33:15,772:INFO:root: ✅ Re-registered ReviewerCog views
+2025-10-10 01:33:15,773:INFO:root: ✅ Re-registered SubmissionCog views
+2025-10-10 01:33:15,773:INFO:root: ✅ Auto-healing sequence completed successfully (views re-registered).
+2025-10-10 02:11:04,849:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-10 02:11:04,854:INFO:discord.client: logging in using static token
+2025-10-10 02:11:05,330:INFO:root: Database pool created.
+2025-10-10 02:11:05,352:INFO:root: Database initialized successfully.
+2025-10-10 02:11:05,359:INFO:root: PassiveSubmissionCog loaded successfully.
+2025-10-10 02:11:06,605:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-10 02:11:06,627:INFO:root: SelfHealingCog loaded.
+2025-10-10 02:11:06,630:INFO:root: EmbedRefreshCog loaded. Starting auto-refresh loop...
+2025-10-10 02:11:07,719:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 651a656f6d5a2637d7d436cec7c543bf).
+2025-10-10 02:11:09,721:INFO:root: ✅ Auto-refresh loop ready to start.
+2025-10-10 02:11:09,722:INFO:root: SelfHealingCog ready. Starting auto-healing sequence...
+2025-10-10 02:11:09,722:INFO:root: 🏥 Starting auto-healing sequence...
+2025-10-10 02:11:09,730:INFO:root: Points backup completed: 1 users, 0 TikTok handles
+2025-10-10 02:11:12,877:ERROR:root: ❌ Live Queue Channel: Missing permissions to access channel
+2025-10-10 02:11:13,166:ERROR:root: ❌ Metrics Channel: Missing permissions to access channel
+2025-10-10 02:11:13,167:INFO:root: ✅ Re-registered LiveQueueCog views
+2025-10-10 02:11:13,167:INFO:root: ✅ Re-registered ReviewerCog views
+2025-10-10 02:11:13,167:INFO:root: ✅ Re-registered SubmissionCog views
+2025-10-10 02:11:13,167:INFO:root: ✅ Auto-healing sequence completed successfully (views re-registered).
+2025-10-10 02:33:21,717:WARNING:discord.client: PyNaCl is not installed, voice will NOT be supported
+2025-10-10 02:33:21,718:INFO:discord.client: logging in using static token
+2025-10-10 02:33:22,211:INFO:root: Database pool created.
+2025-10-10 02:33:22,247:INFO:root: Database initialized successfully.
+2025-10-10 02:33:22,253:INFO:root: PassiveSubmissionCog loaded successfully.
+2025-10-10 02:33:23,566:INFO:root: --- TikTokCog IS BEING INITIALIZED ---
+2025-10-10 02:33:23,573:INFO:root: SelfHealingCog loaded.
+2025-10-10 02:33:23,577:INFO:root: EmbedRefreshCog loaded. Starting auto-refresh loop...
+2025-10-10 02:33:24,185:INFO:discord.gateway: Shard ID None has connected to Gateway (Session ID: 5abf46602eadaf452996626076c37a01).
+2025-10-10 02:33:26,188:INFO:root: ✅ Auto-refresh loop ready to start.
+2025-10-10 02:33:26,189:INFO:root: SelfHealingCog ready. Starting auto-healing sequence...
+2025-10-10 02:33:26,189:INFO:root: 🏥 Starting auto-healing sequence...
+2025-10-10 02:33:26,198:INFO:root: Points backup completed: 1 users, 0 TikTok handles
+2025-10-10 02:33:29,332:ERROR:root: ❌ Live Queue Channel: Missing permissions to access channel
+2025-10-10 02:33:29,483:ERROR:root: ❌ Metrics Channel: Missing permissions to access channel
+2025-10-10 02:33:29,484:INFO:root: ✅ Re-registered LiveQueueCog views
+2025-10-10 02:33:29,484:INFO:root: ✅ Re-registered ReviewerCog views
+2025-10-10 02:33:29,484:INFO:root: ✅ Re-registered SubmissionCog views
+2025-10-10 02:33:29,484:INFO:root: ✅ Auto-healing sequence completed successfully (views re-registered).
