@@ -129,6 +129,21 @@ class Database:
                 """)
                 await conn.execute("INSERT INTO bot_config (key, value) VALUES ('free_line_closed', '0') ON CONFLICT (key) DO NOTHING;")
 
+                # persistent_embeds table for auto-updating persistent displays
+                await conn.execute("""
+                    CREATE TABLE IF NOT EXISTS persistent_embeds (
+                        id SERIAL PRIMARY KEY,
+                        embed_type TEXT NOT NULL,
+                        channel_id BIGINT NOT NULL,
+                        message_id BIGINT NOT NULL,
+                        current_page INTEGER DEFAULT 0,
+                        last_content_hash TEXT,
+                        last_updated TIMESTAMPTZ DEFAULT NOW(),
+                        is_active BOOLEAN DEFAULT TRUE,
+                        UNIQUE(embed_type, channel_id)
+                    );
+                """)
+
                 # queue_config to map queues to channels (for admin views, etc)
                 await conn.execute("""
                     CREATE TABLE IF NOT EXISTS queue_config (
@@ -391,13 +406,27 @@ class Database:
             await conn.execute(query, session_id, tiktok_account_id, interaction_type, value, coin_value)
 
     # FIXED BY Replit: TikTok handle validation and duplicate prevention - verified working
+    # TEMPORARY: Handle existence check bypassed - accepts any handle
     async def link_tiktok_account(self, discord_id: int, tiktok_handle: str) -> Tuple[bool, str]:
         """Links a TikTok handle to a Discord ID. Returns a success boolean and a message."""
         async with self.pool.acquire() as conn:
             async with conn.transaction():
                 account = await conn.fetchrow("SELECT handle_id, linked_discord_id FROM tiktok_accounts WHERE handle_name = $1", tiktok_handle)
+                
+                # TEMPORARY: Commented out requirement for handle to exist in database
+                # if not account:
+                #     return False, "This TikTok handle has not been seen on stream yet."
+                
+                # If handle doesn't exist, create it
                 if not account:
-                    return False, "This TikTok handle has not been seen on stream yet."
+                    handle_id = await conn.fetchval(
+                        "INSERT INTO tiktok_accounts (handle_name, last_seen) VALUES ($1, NOW()) RETURNING handle_id",
+                        tiktok_handle
+                    )
+                    # Now link it to the user
+                    await conn.execute("UPDATE tiktok_accounts SET linked_discord_id = $1 WHERE handle_id = $2", discord_id, handle_id)
+                    return True, f"Successfully linked your Discord account to the TikTok handle `{tiktok_handle}`."
+                
                 if account['linked_discord_id'] and account['linked_discord_id'] != discord_id:
                     return False, "This TikTok handle is already linked to another Discord user."
                 if account['linked_discord_id'] == discord_id:
@@ -427,34 +456,65 @@ class Database:
         """
         Gets all TikTok handles that are not currently linked to any Discord account,
         for use in autocomplete. Filters by the user's current input.
+        Optimized for fast autocomplete responses (<1 second).
         """
-        query = """
-            SELECT handle_name FROM tiktok_accounts
-            WHERE linked_discord_id IS NULL
-            AND handle_name ILIKE $1
-            ORDER BY last_seen DESC
-            LIMIT 25;
-        """
+        # Use prefix search for better index performance (ILIKE 'input%' can use index)
+        # Only use slow full-text search if user has typed 2+ characters
+        if len(current_input) >= 2:
+            query = """
+                SELECT handle_name FROM tiktok_accounts
+                WHERE linked_discord_id IS NULL
+                AND handle_name ILIKE $1
+                ORDER BY last_seen DESC
+                LIMIT 25;
+            """
+            search_pattern = f"{current_input}%"  # Prefix search only (faster)
+        else:
+            # Return most recent unlinked handles if input is too short
+            query = """
+                SELECT handle_name FROM tiktok_accounts
+                WHERE linked_discord_id IS NULL
+                ORDER BY last_seen DESC
+                LIMIT 25;
+            """
+            search_pattern = None
+        
         async with self.pool.acquire() as conn:
-            # Add wildcards for the ILIKE search
-            search_pattern = f"%{current_input}%"
-            rows = await conn.fetch(query, search_pattern)
+            if search_pattern:
+                rows = await conn.fetch(query, search_pattern)
+            else:
+                rows = await conn.fetch(query)
             return [row['handle_name'] for row in rows]
 
     async def get_all_tiktok_handles(self, current_input: str = "") -> List[str]:
         """
         Gets all known TikTok handles for autocomplete during submission.
         Filters by the user's current input.
+        Optimized for fast autocomplete responses (<1 second).
         """
-        query = """
-            SELECT handle_name FROM tiktok_accounts
-            WHERE handle_name ILIKE $1
-            ORDER BY last_seen DESC
-            LIMIT 25;
-        """
+        # Use prefix search for better index performance
+        if len(current_input) >= 2:
+            query = """
+                SELECT handle_name FROM tiktok_accounts
+                WHERE handle_name ILIKE $1
+                ORDER BY last_seen DESC
+                LIMIT 25;
+            """
+            search_pattern = f"{current_input}%"  # Prefix search only (faster)
+        else:
+            # Return most recent handles if input is too short
+            query = """
+                SELECT handle_name FROM tiktok_accounts
+                ORDER BY last_seen DESC
+                LIMIT 25;
+            """
+            search_pattern = None
+        
         async with self.pool.acquire() as conn:
-            search_pattern = f"%{current_input}%"
-            rows = await conn.fetch(query, search_pattern)
+            if search_pattern:
+                rows = await conn.fetch(query, search_pattern)
+            else:
+                rows = await conn.fetch(query)
             return [row['handle_name'] for row in rows]
 
     async def start_live_session(self, tiktok_username: str) -> int:
@@ -573,8 +633,21 @@ class Database:
             return await conn.fetchval(query, tiktok_handle)
 
     async def find_gift_rewardable_submission(self, user_id: int) -> Optional[Dict[str, Any]]:
-        """Finds the most recent submission from a user that can be rewarded by a gift."""
-        non_rewardable_queues = [q.value for q in QueueLine if q != QueueLine.FREE]
+        """Finds the most recent submission from a user that can be rewarded by a gift.
+        
+        Selects from: Free line and Pending Skips
+        Excludes: All skip lines (5, 10, 15, 20, 25+), Songs Played, and Removed
+        """
+        # Only exclude submissions already in skip lines, songs played, or removed
+        non_rewardable_queues = [
+            QueueLine.FIVESKIP.value,
+            QueueLine.TENSKIP.value,
+            QueueLine.FIFTEENSKIP.value,
+            QueueLine.TWENTYSKIP.value,
+            QueueLine.TWENTYFIVEPLUSSKIP.value,
+            QueueLine.SONGS_PLAYED.value,
+            QueueLine.REMOVED.value
+        ]
         query = "SELECT * FROM submissions WHERE user_id = $1 AND (queue_line IS NULL OR NOT (queue_line = ANY($2::text[]))) ORDER BY submission_time DESC LIMIT 1;"
         async with self.pool.acquire() as conn:
             row = await conn.fetchrow(query, user_id, non_rewardable_queues)
@@ -691,6 +764,76 @@ class Database:
                 if interaction_type == 'gift' and row['total_coins']:
                     stats['gift_coins'] = int(row['total_coins'])
         return stats
+
+    # ========================================
+    # Persistent Embeds Methods
+    # ========================================
+
+    async def register_persistent_embed(self, embed_type: str, channel_id: int, message_id: int) -> None:
+        """Register or update a persistent embed for auto-refresh tracking."""
+        query = """
+            INSERT INTO persistent_embeds (embed_type, channel_id, message_id, current_page, is_active, last_updated)
+            VALUES ($1, $2, $3, 0, TRUE, NOW())
+            ON CONFLICT (embed_type, channel_id)
+            DO UPDATE SET message_id = $3, is_active = TRUE, last_updated = NOW()
+        """
+        async with self.pool.acquire() as conn:
+            await conn.execute(query, embed_type, channel_id, message_id)
+            logging.info(f"Registered persistent embed: {embed_type} in channel {channel_id}")
+
+    async def get_all_active_persistent_embeds(self) -> List[Dict[str, Any]]:
+        """Get all active persistent embeds for the refresh loop."""
+        query = """
+            SELECT id, embed_type, channel_id, message_id, current_page, last_content_hash, last_updated
+            FROM persistent_embeds
+            WHERE is_active = TRUE
+            ORDER BY embed_type
+        """
+        async with self.pool.acquire() as conn:
+            rows = await conn.fetch(query)
+            return [dict(row) for row in rows]
+
+    async def get_persistent_embed(self, embed_type: str, channel_id: int) -> Optional[Dict[str, Any]]:
+        """Get a specific persistent embed by type and channel."""
+        query = """
+            SELECT id, embed_type, channel_id, message_id, current_page, last_content_hash, last_updated, is_active
+            FROM persistent_embeds
+            WHERE embed_type = $1 AND channel_id = $2
+        """
+        async with self.pool.acquire() as conn:
+            row = await conn.fetchrow(query, embed_type, channel_id)
+            return dict(row) if row else None
+
+    async def update_persistent_embed_page(self, embed_type: str, channel_id: int, page: int) -> None:
+        """Update the current page for a persistent embed."""
+        query = """
+            UPDATE persistent_embeds
+            SET current_page = $3, last_updated = NOW()
+            WHERE embed_type = $1 AND channel_id = $2
+        """
+        async with self.pool.acquire() as conn:
+            await conn.execute(query, embed_type, channel_id, page)
+
+    async def update_persistent_embed_hash(self, embed_type: str, channel_id: int, content_hash: str) -> None:
+        """Update the content hash for a persistent embed after refreshing."""
+        query = """
+            UPDATE persistent_embeds
+            SET last_content_hash = $3, last_updated = NOW()
+            WHERE embed_type = $1 AND channel_id = $2
+        """
+        async with self.pool.acquire() as conn:
+            await conn.execute(query, embed_type, channel_id, content_hash)
+
+    async def deactivate_persistent_embed(self, embed_type: str, channel_id: int) -> None:
+        """Mark a persistent embed as inactive (won't be auto-refreshed)."""
+        query = """
+            UPDATE persistent_embeds
+            SET is_active = FALSE, last_updated = NOW()
+            WHERE embed_type = $1 AND channel_id = $2
+        """
+        async with self.pool.acquire() as conn:
+            await conn.execute(query, embed_type, channel_id)
+            logging.info(f"Deactivated persistent embed: {embed_type} in channel {channel_id}")
 
     async def close(self):
         """Close database connection pool."""
